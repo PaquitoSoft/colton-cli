@@ -1,0 +1,25 @@
+.app-header {
+    background-color: var(--secondary-background-color);
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.app-header__search-icon {
+    fill: var(--white);
+    position: relative;
+    top: 3px;
+    margin-right: 10px;;
+}
+
+.app-header__serach-input {
+    background-color: rgba(0,0,0,0);
+    color: var(--white);
+    border: none;
+    font-size: var(--size-xl);
+}
+
+.app-header__serach-input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--white);
+}

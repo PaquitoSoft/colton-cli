@@ -1,0 +1,77 @@
+:root {
+    --primary-background-color: #14182a;
+    --secondary-background-color: #1b2039;
+
+    --primary-color: #fff;
+
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+
+    --size-s: 12px;
+    --size-m: 14px;
+    --size-l: 18px;
+    --size-xl: 24px;
+}
+
+body {
+    font-family: "Baloo Da 2", "Helvetica Neue", Arial, sans-serif;
+    color: var(--primary-color);
+}
+
+.app-header {
+    grid-area: app-header;
+}
+.app-sidebar {
+    grid-area: app-sidebar;
+}
+.app-main-content {
+    grid-area: app-main-content;
+}
+.app-footer {
+    grid-area: app-footer;
+}
+
+.app-layout {
+    display: grid;
+    gap: 5px;
+    height: 100vh;
+    grid-template-areas: 
+        "app-sidebar app-header"
+        "app-sidebar app-main-content"
+        "app-footer app-footer";
+    grid-template-rows: 75px auto 100px;
+    grid-template-columns: 200px auto;
+}
+
+.app-layout > * {
+    background-color: cadetblue;
+}
+
+/* ------------- Utilities --------------- */
+.icon {
+    fill: var(--white);
+}

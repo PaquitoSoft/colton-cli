@@ -1,0 +1,26 @@
+.app-sidebar {
+    background-color: var(--secondary-background-color);
+    padding: 20px 0 0 20px;
+}
+
+.app-sidebar__logo {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.app-sidebar__sections {
+    list-style: none;
+    padding: 0 0 0 10px;
+    font-size: var(--size-l);
+}
+
+.app-sidebar__section {
+    margin-bottom: 10px;;
+}
+
+.app-sidebar__icon {
+    fill: #fff;
+    position: relative;
+    top: 6px;
+    margin-right: 8px;
+}

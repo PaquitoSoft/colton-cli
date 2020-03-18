@@ -1,0 +1,6 @@
+.app-footer{
+    background-color: var(--secondary-background-color);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
