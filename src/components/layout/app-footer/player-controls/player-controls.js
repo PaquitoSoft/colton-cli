@@ -11,7 +11,7 @@ function PlayerControls() {
 	return (
 		<div className="player-controls">
 			<span className="player-controls__control"><PreviousIcon className="icon" /></span>
-			<span className="player-controls__control"><PlayIcon className="icon" /></span>
+			<span className="player-controls__control"><PauseIcon className="icon" /></span>
 			<span className="player-controls__control"><NextIcon className="icon" /></span>
 		</div>
 	);
