@@ -4,3 +4,7 @@
     align-items: center;
     padding-left: 20px;
 }
+
+.app-footer__player-current-track {
+    margin-left: 60px;
+}

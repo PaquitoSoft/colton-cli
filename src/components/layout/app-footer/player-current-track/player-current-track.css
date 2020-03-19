@@ -1,0 +1,38 @@
+.player-current-track {
+    display: flex;
+}
+
+.player-current-track__title {
+    font-size: var(--size-l);
+}
+
+.player-current-track__progress {
+    display: flex;
+    align-items: center;
+}
+
+.player-current-track__progress-bar {
+    margin-left: 10px;
+    height: 4px;
+    min-width: 500px;
+
+    background-color: #f5f5f5;
+    border-radius: 2px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+}
+
+.player-current-track__progress-bar-indicator{
+    background-color: #de4233;
+    border-radius: 2px;
+    display: block;
+    height: 4px;
+}
+
+.player-current-track__actions {
+    margin-left: 24px;
+    padding: 4px 0 4px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
