@@ -33,8 +33,8 @@
 
     --size-s: 12px;
     --size-m: 14px;
-    --size-l: 18px;
-    --size-xl: 24px;
+    --size-l: 22px;
+    --size-xl: 30px;
 }
 
 body {
@@ -57,7 +57,7 @@ body {
 
 .app-layout {
     display: grid;
-    gap: 5px;
+    gap: 1px;
     height: 100vh;
     grid-template-areas: 
         "app-sidebar app-header"
@@ -67,11 +67,8 @@ body {
     grid-template-columns: 200px auto;
 }
 
-.app-layout > * {
-    background-color: cadetblue;
-}
-
 /* ------------- Utilities --------------- */
 .icon {
     fill: var(--white);
+    cursor: pointer;
 }
