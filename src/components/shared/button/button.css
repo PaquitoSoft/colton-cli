@@ -1,0 +1,22 @@
+.app-button {
+    background: rgba(160, 179, 176, 0.25);
+    color: #fff;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-decoration: none;
+    border: none;
+    font-family: var(--font-family);
+    font-size: var(--size-l);
+
+    transition: background-color 0.2s;
+}
+.app-button--active {
+    background-color: #1ab188;
+}
+.app-button:hover {
+
+    background-color: #179b77;
+}

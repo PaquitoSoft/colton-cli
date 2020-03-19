@@ -1,0 +1,22 @@
+.login-form {
+    text-align: center;
+}
+
+.login-form__title {
+    margin: 0 0 10px 0;
+    font-size: var(--size-xl);
+}
+
+.login-form__form-input {
+    /* 20px is the horizontal padding of form-input */
+    width: calc(100% - 20px);
+    margin-bottom: 40px;
+}
+
+.login-form__login-button {
+    width: 100%;
+    font-size: var(--size-xl);
+    font-weight: bold;
+    height: 70px;
+    margin-bottom: 10px;
+}

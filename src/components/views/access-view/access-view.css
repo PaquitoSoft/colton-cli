@@ -1,0 +1,23 @@
+.access-view {
+    background-color: var(--secondary-background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.access-view__content {
+    background-color: var(--primary-background-color);
+    width: 540px;
+    padding: 40px;
+    border-radius: 5px;
+}
+
+.access-view__actions {
+    margin-bottom: 40px;
+}
+
+.access-view__action-button {
+    width: 50%;
+    height: 50px;
+}

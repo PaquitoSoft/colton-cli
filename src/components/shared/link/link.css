@@ -1,0 +1,14 @@
+.app-link {
+    text-decoration: none;
+    color: #1ab188;
+    transition: color 0.2s;
+}
+
+.app-link:hover {
+    color: #179b77;
+    outline-width: 0;
+}
+
+.app-link:active {
+    outline-width: 0;
+}
