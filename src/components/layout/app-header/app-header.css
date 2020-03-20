@@ -16,7 +16,7 @@
     background-color: rgba(0,0,0,0);
     color: var(--white);
     border: none;
-    font-size: var(--size-xl);
+    font-size: var(--font-size-xl);
 }
 
 .app-header__serach-input:focus {

@@ -3,8 +3,8 @@
 }
 
 .login-form__title {
-    margin: 0 0 10px 0;
-    font-size: var(--size-xl);
+    margin: 0 0 20px 0;
+    font-size: var(--font-size-xl);
 }
 
 .login-form__form-input {
@@ -15,8 +15,7 @@
 
 .login-form__login-button {
     width: 100%;
-    font-size: var(--size-xl);
+    font-size: var(--font-size-xl);
     font-weight: bold;
-    height: 70px;
     margin-bottom: 10px;
 }

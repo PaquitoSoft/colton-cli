@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --primary-background-color: #14182a;
     --secondary-background-color: #1b2039;
 
@@ -31,16 +31,16 @@
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
 
-    --size-s: 12px;
-    --size-m: 14px;
-    --size-l: 22px;
-    --size-xl: 30px;
+    --font-size-s: 12px;
+    --font-size-m: 14px;
+    --font-size-l: 22px;
+    --font-size-xl: 30px;
 }
 
 body {
     font-family: "Baloo Da 2", "Helvetica Neue", Arial, sans-serif;
     color: var(--primary-color);
-}
+} */
 
 .app-header {
     grid-area: app-header;

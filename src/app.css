@@ -32,14 +32,23 @@
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
 
-    --size-s: 12px;
-    --size-m: 14px;
-    --size-l: 22px;
-    --size-xl: 30px;
+    --font-size-s: 12px;
+    --font-size-m: 14px;
+    --font-size-l: 22px;
+    --font-size-xl: 30px;
+
+    --line-height-s: 12px;
+    --line-height-m: 18px;
+    --line-height-l: 22px;
+    --line-height-xl: 30px;
 }
+
+@custom-media --mobile (max-width: 500px);
 
 body {
     color: var(--primary-color);
     font-family: "Baloo Da 2", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--font-size-m);
+    line-height: var(--line-height-m);
     margin: 0;
 }

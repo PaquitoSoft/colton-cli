@@ -11,7 +11,7 @@
 .app-sidebar__sections {
     list-style: none;
     padding: 0 0 0 10px;
-    font-size: var(--size-l);
+    font-size: var(--font-size-l);
 }
 
 .app-sidebar__section {

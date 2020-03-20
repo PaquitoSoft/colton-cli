@@ -9,7 +9,9 @@
     text-decoration: none;
     border: none;
     font-family: var(--font-family);
-    font-size: var(--size-l);
+    font-size: var(--font-size-l);
+    line-height: calc(var(--font-size-l) + 6px);
+    padding: 10px;
 
     transition: background-color 0.2s;
 }
@@ -17,6 +19,5 @@
     background-color: #1ab188;
 }
 .app-button:hover {
-
     background-color: #179b77;
 }

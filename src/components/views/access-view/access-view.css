@@ -21,3 +21,13 @@
     width: 50%;
     height: 50px;
 }
+
+@media (--mobile) {
+    .access-view {
+        background-color: var(--primary-background-color);
+        align-items: start;
+    }
+    .access-view__content {
+        width: 100%;
+    }
+}
