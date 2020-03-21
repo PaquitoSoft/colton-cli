@@ -6,12 +6,16 @@ class ApiClient {
 			url: apiUrl, // GraphQL server address
 			interceptors: [],
 			headers: { // customized headers of all requests,
-				userToken
+				authorization: userToken
 			},
 			// onStart: function (requestQueueLength) {}, // callback of a new request queue
 			// onEnd: function (requestQueueLength) {}, // callback of a request queue finished
 			omitEmptyVariables: false // remove null props(null or '') from the variables
 		});
+	}
+
+	updateUserToken(userToken) {
+		this.client.requestObject.headers.authorization = userToken;
 	}
 
 	sendQuery({ query, variables }) {

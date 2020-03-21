@@ -6,12 +6,12 @@ import AppSidebar from './app-sidebar/app-sidebar';
 import AppFooter from './app-footer/app-footer';
 import AppMainContent from './app-main-content/app-main-content';
 
-function Layout() {
+function Layout({ children }) {
     return (
         <div className="app-layout">
             <AppHeader />
             <AppSidebar />
-            <AppMainContent />
+            <AppMainContent>{children}</AppMainContent>
             <AppFooter />
         </div>
     ); 

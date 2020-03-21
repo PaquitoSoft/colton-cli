@@ -32,6 +32,7 @@ export function AppProvider({ apiClient, user, children } ) {
 		loginUser: (user) => {
 			setUser(user);
 			storeValue(CACHE.userKey, user);
+			apiClient.updateUserToken(user.token);
 		},
 		logoutUser: () => {
 			setUser(null);

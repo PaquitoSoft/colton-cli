@@ -1,60 +1,60 @@
 .mini-account {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .mini-account__button {
-    appearance: none;
+	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	text-decoration: none;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
 }
 
 .mini-account__button:focus {
-    outline: none;
+	outline: none;
 }
 
 .mini-account__user-icon {
-    border-radius: 50%;
+	border-radius: 50%;
 }
 
 .mini-account__user-icon:hover {
-    border-color: #9ecaed;
-    box-shadow: 0 0 10px #9ecaed;
+	border-color: #9ecaed;
+	box-shadow: 0 0 10px #9ecaed;
 }
 
 .mini-account__menu {
-    position: fixed;
-    top: 70px;
-    right: -150px;
-    width: 140px;
-    background-color: #3D5A6C;
-    text-align: center;
-    padding: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    font-size: var(--font-size-l);
-    transition: right 0.2s;
+	position: fixed;
+	top: 70px;
+	right: -150px;
+	width: 140px;
+	background-color: #3D5A6C;
+	text-align: center;
+	padding: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	font-size: var(--font-size-l);
+	transition: right 0.2s;
 }
 
 .mini-account__menu--visible {
-    right: 0;
+	right: 0;
 }
 
 .mini-account__list {
-    text-decoration: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+	text-decoration: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .mini-account__list-item {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .mini-account__list-item:not(:last-child) {
-    border-bottom: 1px solid var(--white);
+	border-bottom: 1px solid var(--white);
 }

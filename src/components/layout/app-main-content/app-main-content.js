@@ -2,9 +2,9 @@ import React from 'react';
 
 import './app-main-content.css';
 
-function AppMainContent() {
+function AppMainContent({ children }) {
 	return (
-		<main className="app-main-content">Main content</main>
+		<main className="app-main-content">{children}</main>
 	);
 }
 
