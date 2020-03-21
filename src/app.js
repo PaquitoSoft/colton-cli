@@ -7,12 +7,12 @@ import './app.css';
 import { useAppContext } from './components/shared/app-context/app-context';
 
 
-function App({ apiClient, userToken }) {
-	const { user } = useAppContext();
+function App() {
+	const { currentUser } = useAppContext();
 
 	return (
 		<div className="app">
-			{!!user ? <Layout /> : <AccessView />}
+			{!!currentUser ? <Layout /> : <AccessView />}
 		</div>
 	);
 }

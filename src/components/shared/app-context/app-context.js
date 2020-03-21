@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { getValue, storeValue } from '../../../plugins/local-cache';
+import { getValue, storeValue, removeValue } from '../../../plugins/local-cache';
 import { CACHE } from '../../../constants';
 
 export const THEME_MODES = {
@@ -12,8 +12,9 @@ const noop = () => false;
 
 const AppContext = React.createContext({
 	apiClient: undefined,
-	user: undefined,
-	setUser: noop,
+	currentUser: undefined,
+	loginUser: noop,
+	logoutUser: noop,
 	error: null,
 	setError: noop,
 	themeMode: undefined,
@@ -27,10 +28,14 @@ export function AppProvider({ apiClient, user, children } ) {
 	const [_user, setUser] = useState(user);
 	const providerInitialValue = {
 		apiClient, 
-		user: _user,
-		setUser: (user) => {
+		currentUser: _user,
+		loginUser: (user) => {
 			setUser(user);
 			storeValue(CACHE.userKey, user);
+		},
+		logoutUser: () => {
+			setUser(null);
+			removeValue(CACHE.userKey);
 		},
 		error, 
 		setError,

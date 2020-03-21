@@ -1,0 +1,18 @@
+.seeker__search-icon {
+    fill: var(--white);
+    position: relative;
+    top: 3px;
+    margin-right: 10px;;
+}
+
+.seeker__search-input {
+    background-color: rgba(0,0,0,0);
+    color: var(--white);
+    border: none;
+    font-size: var(--font-size-xl);
+}
+
+.seeker__search-input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--white);
+}

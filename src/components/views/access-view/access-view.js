@@ -17,7 +17,7 @@ const forms = {
 
 function AccessView() {
 	const [currentForm, setCurrentForm] = useState(forms.LOGIN);
-	const { setUser } = useAppContext();
+	const { loginUser } = useAppContext();
 	return (
 		<div className="access-view">
 			<div className="access-view__content">
@@ -38,7 +38,7 @@ function AccessView() {
 						currentForm === forms.LOGIN && 
 						<LoginForm 
 							onForgotPasswordClicked={() => setCurrentForm(forms.RESET)}
-							onLoginSuccess={(user) => setUser(user)}
+							onLoginSuccess={(user) => loginUser(user)}
 						/>
 					}
 					{currentForm === forms.SIGNUP && <SignupForm />}

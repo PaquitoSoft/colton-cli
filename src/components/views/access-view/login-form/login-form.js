@@ -15,6 +15,7 @@ const LOGIN_MUTATION = `
 		login(email: $email, password: $password) {
 			user {
 				nickname
+				email
 			}
 			authToken
 		}
