@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { getValue } from './plugins/local-cache';
-import { CACHE } from './constants';
-
 import Layout from './components/layout/layout';
 import AccessView from './components/views/access-view/access-view';
 
 import './app.css';
+import { useAppContext } from './components/shared/app-context/app-context';
 
-function App() {
-	const userToken = getValue(CACHE.userToken);
-	console.log({ userToken, foo: !!userToken });
+
+function App({ apiClient, userToken }) {
+	const { user } = useAppContext();
+
 	return (
-		<div>
-			{!!userToken ? <Layout /> : <AccessView />}
+		<div className="app">
+			{!!user ? <Layout /> : <AccessView />}
 		</div>
 	);
 }

@@ -1,3 +1,7 @@
 export const CACHE = {
-	userToken: 'userToken'
+	userKey: 'user'
 };
+
+export const API = {
+	host: 'https://colton-api.herokuapp.com'
+}

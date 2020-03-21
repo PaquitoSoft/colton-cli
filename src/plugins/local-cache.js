@@ -1,6 +1,7 @@
 const xmlSerializer = new XMLSerializer();
 const xmlParser = new DOMParser();
 const SEPARATOR = '@@@';
+const ONE_MONTH_IN_MINUTES = 43200;
 
 function serializeValue(value) {
 	let type = 'string';
@@ -17,7 +18,7 @@ function serializeValue(value) {
 	return { type, raw };
 }
 
-export function storeValue(key, value, ttl = 0) { // ttl in minutes
+export function storeValue(key, value, ttl = ONE_MONTH_IN_MINUTES) { // ttl in minutes
 	const { type, raw } = serializeValue(value);
 	const _ttl = Date.now() + (ttl * 60 * 1000);
 	window.localStorage.setItem(key, `${_ttl}${SEPARATOR}${type}${SEPARATOR}${raw}`);

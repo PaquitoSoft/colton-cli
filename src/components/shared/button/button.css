@@ -1,23 +1,34 @@
 .app-button {
-    background: rgba(160, 179, 176, 0.25);
-    color: #fff;
-    cursor: pointer;
+	background: #373f4c;
+	color: #fff;
+	cursor: pointer;
 
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-decoration: none;
-    border: none;
-    font-family: var(--font-family);
-    font-size: var(--font-size-l);
-    line-height: calc(var(--font-size-l) + 6px);
-    padding: 10px;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	text-decoration: none;
+	border: none;
+	font-family: var(--font-family);
+	font-size: var(--font-size-l);
+	line-height: calc(var(--font-size-l) + 6px);
+	padding: 10px;
 
-    transition: background-color 0.2s;
+	transition: background-color 0.2s;
 }
+
 .app-button--active {
-    background-color: #1ab188;
+	background-color: #1ab188;
 }
+
 .app-button:hover {
-    background-color: #179b77;
+	background-color: #179b77;
+}
+
+.app-button:disabled {
+	background-color: #373f4c;
+}
+
+.app-button__loader-icon {
+	fill: var(--white);
+	animation: rotation 1.5s linear infinite;
 }

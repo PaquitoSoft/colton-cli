@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useAppContext } from '../../shared/app-context/app-context';
+
 import Button from '../../shared/button/button';
 import LoginForm from './login-form/login-form';
 import SignupForm from './signup-form/signup-form';
@@ -15,6 +17,7 @@ const forms = {
 
 function AccessView() {
 	const [currentForm, setCurrentForm] = useState(forms.LOGIN);
+	const { setUser } = useAppContext();
 	return (
 		<div className="access-view">
 			<div className="access-view__content">
@@ -31,7 +34,13 @@ function AccessView() {
 					>Sign up</Button>
 				</div>
 				<div className="access-view__form">
-					{currentForm === forms.LOGIN && <LoginForm onForgotPasswordClicked={() => setCurrentForm(forms.RESET)} />}
+					{
+						currentForm === forms.LOGIN && 
+						<LoginForm 
+							onForgotPasswordClicked={() => setCurrentForm(forms.RESET)}
+							onLoginSuccess={(user) => setUser(user)}
+						/>
+					}
 					{currentForm === forms.SIGNUP && <SignupForm />}
 					{currentForm === forms.RESET && <ForgotPasswordForm onBackClicked={() => setCurrentForm(forms.LOGIN)} />}
 				</div>

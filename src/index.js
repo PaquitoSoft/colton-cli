@@ -1,11 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './app';
+import { CACHE, API } from './constants';
+
 
 import * as serviceWorker from './serviceWorker';
+import { getValue } from './plugins/local-cache';
+import ApiClient from './plugins/api-client';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { AppProvider } from './components/shared/app-context/app-context';
+import App from './app';
+
+const user = getValue(CACHE.userKey);
+const apiClient = new ApiClient({
+	apiUrl: API.host,
+	userToken: user && user.token
+});
+
+ReactDOM.render(
+	<AppProvider apiClient={apiClient} user={user}>
+		<App />
+	</AppProvider>,
+	document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
