@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { redirectTo } from "@reach/router";
 import { getValue, storeValue, removeValue } from '../../../plugins/local-cache';
 import { CACHE } from '../../../constants';
 
@@ -37,6 +38,7 @@ export function AppProvider({ apiClient, user, children } ) {
 		logoutUser: () => {
 			setUser(null);
 			removeValue(CACHE.userKey);
+			redirectTo('/');
 		},
 		error, 
 		setError,

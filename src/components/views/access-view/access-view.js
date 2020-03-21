@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "@reach/router"
 
 import { useAppContext } from '../../shared/app-context/app-context';
 
@@ -18,6 +19,8 @@ const forms = {
 function AccessView() {
 	const [currentForm, setCurrentForm] = useState(forms.LOGIN);
 	const { loginUser } = useAppContext();
+	const navigate = useNavigate();
+
 	return (
 		<div className="access-view">
 			<div className="access-view__content">
@@ -38,7 +41,10 @@ function AccessView() {
 						currentForm === forms.LOGIN && 
 						<LoginForm 
 							onForgotPasswordClicked={() => setCurrentForm(forms.RESET)}
-							onLoginSuccess={(user) => loginUser(user)}
+							onLoginSuccess={(user) => {
+								loginUser(user);
+								navigate('/home');
+							}}
 						/>
 					}
 					{currentForm === forms.SIGNUP && <SignupForm />}

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reach/router": "^1.3.3",
     "fetchql": "^3.0.0",
     "md5": "^2.2.1",
     "react": "^16.9.0",
