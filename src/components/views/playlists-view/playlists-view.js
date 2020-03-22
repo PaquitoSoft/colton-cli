@@ -10,6 +10,7 @@ import './playlists-view.css';
 const PLAYLISTS_QUERY = `
 	query GetUserPlaylists {
 		getPlaylistsByUser {
+			id
 			name
 			creationDate
 			tracksCount

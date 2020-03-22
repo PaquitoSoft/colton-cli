@@ -4,6 +4,7 @@ import { ReactComponent as TrendingIcon } from './trending-24px.svg';
 import { ReactComponent as PlaylistsIcon } from './playlists-24px.svg';
 import { ReactComponent as FavoritesIcon } from './favorite-24px.svg';
 import './app-sidebar.css';
+import Link from '../../shared/link/link';
 
 function AppSidebar() {
     return (
@@ -11,16 +12,22 @@ function AppSidebar() {
 			<span className="app-sidebar__logo">COLTON</span>
 			<ul className="app-sidebar__sections">
 				<li className="app-sidebar__section">
-					<TrendingIcon className="app-sidebar__icon" />
-					<span>Trending</span>
+					<Link href="/trending">
+						<TrendingIcon className="app-sidebar__icon" />
+						<span>Trending</span>
+					</Link>
 				</li>
 				<li className="app-sidebar__section">
-					<PlaylistsIcon className="app-sidebar__icon" />
-					<span>Playlists</span>
+					<Link href="/playlists">
+						<PlaylistsIcon className="app-sidebar__icon" />
+						<span>Playlists</span>
+					</Link>
 				</li>
 				<li className="app-sidebar__section">
-					<FavoritesIcon className="app-sidebar__icon" />
-					<span>Favorites</span>
+					<Link href="/favorites">
+						<FavoritesIcon className="app-sidebar__icon" />
+						<span>Favorites</span>
+					</Link>
 				</li>
 			</ul>
 		</aside>

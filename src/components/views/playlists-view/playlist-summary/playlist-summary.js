@@ -1,13 +1,15 @@
 import React from 'react';
 
+import Link from '../../../shared/link/link';
+
 import './playlist-summary.css';
 
 function PlaylistSummary({ playlist }) {
 	return (
 		<div className="playlist-summary">
-			<div className="playlist-summary__content">
+			<Link to={`/playlist/${playlist.id}`} className="playlist-summary__content">
 				<div className="playlist-summary__name">{playlist.name}</div>
-			</div>
+			</Link>
 		</div>
 	)
 }

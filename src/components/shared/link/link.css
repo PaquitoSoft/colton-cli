@@ -1,11 +1,13 @@
 .app-link {
     text-decoration: none;
-    color: #1ab188;
+    /* color: #1ab188; */
+    color: var(--white);
     transition: color 0.2s;
 }
 
 .app-link:hover {
-    color: #179b77;
+    /* color: #179b77; */
+    color: var(--white);
     outline-width: 0;
 }
 

@@ -5,6 +5,7 @@ import { useAppContext } from './components/shared/app-context/app-context';
 
 import AccessView from './components/views/access-view/access-view';
 import PlaylistsView from './components/views/playlists-view/playlists-view';
+import PlaylistDetailView from './components/views/playlist-detail-view/playlist-detail-view';
 
 import './app.css';
 
@@ -26,9 +27,11 @@ function App() {
 	return (
 		<div className="app">
 			<Router>
-				<Redirect from="/" to="/home" noThrow />
+				<Redirect from="/" to="/playlists" noThrow />
 				<Route path="/login" component={AccessView} isPublic={true} />
 				<Route path="/home" component={PlaylistsView} />
+				<Route path="/playlists" component={PlaylistsView} />
+				<Route path="/playlist/:playlistId" component={PlaylistDetailView} />
 				<NotFound default />
 			</Router>
 		</div>
