@@ -7,6 +7,8 @@ import Layout from '../../layout/layout';
 import AppDate from '../../shared/date/date';
 import TrackRow from './track-row/track-row';
 
+import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
+
 import './playlist-detail-view.css';
 
 const PLAYLIST_DETAIL_QUERY = `
@@ -26,6 +28,13 @@ const PLAYLIST_DETAIL_QUERY = `
 	}
 `;
 
+function getPlaylistDuration(playlistTracks) {
+	const seconds = playlistTracks.reduce((total, track) => {
+		return total + parseTrackDuration(track.duration);
+	}, 0);
+	return formatDuration(seconds, DURATION_FORMAT.SHORT);
+}
+
 function PlaylistDetailView() {
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
@@ -44,7 +53,7 @@ function PlaylistDetailView() {
 						<h1 className="playlist-detail-view__title">{playlist.name}</h1>
 						<div className="playlist-detail-view__info">
 							<span className="playlist-detail-view__info-data">Tracks count: {playlist.tracksCount}</span>
-							<span className="playlist-detail-view__info-data">Duration: 2 h. 10 min.</span>
+							<span className="playlist-detail-view__info-data">Duration: {getPlaylistDuration(playlist.tracks)}</span>
 							<span className="playlist-detail-view__info-data">
 								Creation date: <AppDate date={playlist.creationDate} />
 							</span>

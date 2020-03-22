@@ -7,7 +7,6 @@ import './date.css';
 // };
 
 function AppDate({ date/*, type = TYPES.short*/ }) {
-	console.log('....', date, new Date(date));
 	const _date = (typeof date === 'string') ? new Date(date) : date;
 	const formattedDate = _date.toLocaleDateString();
 	// const formattedDate = 'foo date';
