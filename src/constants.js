@@ -3,6 +3,6 @@ export const CACHE = {
 };
 
 export const API = {
-	// host: 'https://colton-api.herokuapp.com',
-	host: 'http://localhost:4000'
+	host: 'https://colton-api.herokuapp.com'
+	// host: 'http://localhost:4000'
 }

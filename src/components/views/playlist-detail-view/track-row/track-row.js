@@ -8,14 +8,20 @@ import { ReactComponent as TrackMenuIcon } from './add-icon.svg';
 
 import './track-row.css';
 import { parseTrackDuration, formatDuration } from '../../../../plugins/time-helpers';
+import { useAppContext } from '../../../shared/app-context/app-context';
 
 function TrackRow({ track, index }) {
 	const FavoriteIcon = track.isFavorite ? FavoriteYesIcon : FavoriteNoIcon;
+	const { player } = useAppContext();
+
 	return (
 		<li className="track-row">
 			<div className="track-row__position">
 				<span className="track-row__index">{index}.</span>
-				<PlayIcon className="track-row__play-icon icon" />
+				<PlayIcon 
+					className="track-row__play-icon icon" 
+					onClick={() => player.play(track)}
+				/>
 				<FavoriteIcon className="track-row__favorite-icon icon" />
 			</div>
 			<div className="track-row__title" title={track.title}>{track.title}</div>
