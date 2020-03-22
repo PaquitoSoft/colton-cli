@@ -1,0 +1,57 @@
+.track-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.track-row__position,
+.track-row__actions,
+.track-row__title,
+.track-row__duration {
+    display: inline-block;
+}
+
+.track-row__position,
+.track-row__actions {
+    width: 44px;
+    flex: 0 0 auto;
+}
+
+.track-row__title {
+    flex: 1 1 auto;
+    padding: 0 20px 0 20px;
+    font-size: var(--font-size-l);
+    line-height: var(--line-height-l);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-row__duration {
+    width: 88px;
+    flex: 0 0 auto;
+}
+
+.track-row__index {
+    display: inline-block;
+    width: 24px;
+}
+
+.track-row__favorite-icon {
+    position: relative;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+}
+
+.track-row .track-row__play-icon {
+    position: absolute;
+    left: -6px;
+    padding: 1px 2px 0 0;
+    background-color: var(--primary-background-color);
+    visibility: hidden;
+}
+
+.track-row:hover .track-row__play-icon {
+    visibility: visible;
+}

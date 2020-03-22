@@ -10,7 +10,7 @@
 
 .app-sidebar__sections {
     list-style: none;
-    padding: 0 0 0 10px;
+    padding: 22px 0 0 10px;
     font-size: var(--font-size-l);
 }
 

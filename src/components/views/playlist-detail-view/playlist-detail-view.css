@@ -1,0 +1,15 @@
+.playlist-detail-view__title {
+    margin: 0;
+}
+
+.playlist-detail-view__info {
+    margin-bottom: 20px;
+}
+
+.playlist-detail-view__info-data {
+    margin-right: 15px;
+}
+
+.playlist-detail-tracklist {
+    position: relative;
+}
