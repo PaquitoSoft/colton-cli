@@ -26,17 +26,16 @@ const AppContext = React.createContext({
 	toggleThemeMode: noop
 });
 
-export function AppProvider({ apiClient, user, children } ) {
+export function AppProvider({ apiClient, user, initialPlaylist, children } ) {
 	const initialThemeMode = getValue(STORAGE_THEME_MODE_KEY) || THEME_MODES.LIGHT;
 	const [error, setError] = useState(null);
 	const [themeMode, setThemeMode] = useState(initialThemeMode);
 	const [_user, setUser] = useState(user);
-	const [player, setPlayer] = useState(null);
-	const [playerStatus, setPlayerStatus] = useState(0);
+	const player = new Player({ playlist: initialPlaylist });
+	
 	const providerInitialValue = {
 		apiClient,
 		player,
-		playerStatus,
 		currentUser: _user,
 		loginUser: (user) => {
 			setUser(user);
@@ -60,15 +59,11 @@ export function AppProvider({ apiClient, user, children } ) {
 
 	useEffect(() => {
 		window.onYouTubeIframeAPIReady = function() {
+			let engine;
 			const onReady = () => {
-				setPlayer(new Player({
-					engine,
-					onStatusChange: (newStatus) => {
-						setPlayerStatus(newStatus);
-					}
-				}));
+				player.loadEngine(engine);
 			};
-			const engine = new YT.Player('yt-player', {
+			engine = new YT.Player('yt-player', {
 				width: '480',
 				height: '270',
 				events: { 
@@ -81,6 +76,7 @@ export function AppProvider({ apiClient, user, children } ) {
 		const tag = document.createElement('script');
 		tag.src = 'https://www.youtube.com/iframe_api';
 		document.body.appendChild(tag);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

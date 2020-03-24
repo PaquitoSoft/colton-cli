@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useParams } from "@reach/router";
 
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
+import { useAppContext } from '../../shared/app-context/app-context';
 
 import Layout from '../../layout/layout';
 import AppDate from '../../shared/date/date';
@@ -11,7 +12,6 @@ import Button from '../../shared/button/button';
 import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
 
 import './playlist-detail-view.css';
-import { usePlaylistContext } from '../../shared/playlist-context/playlist-context';
 
 const PLAYLIST_DETAIL_QUERY = `
 	query GetPlaylistDetail($playlistId: ID!) {
@@ -38,7 +38,7 @@ function getPlaylistDuration(playlistTracks) {
 }
 
 function PlaylistDetailView() {
-	const { loadNewPlaylist } = usePlaylistContext();
+	const { player } = useAppContext();
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
@@ -63,9 +63,8 @@ function PlaylistDetailView() {
 						</div>
 						<div className="playlist-detail-view__actions">
 							<Button 
-								kind="secondary" 
 								size="small"
-								onClick={() => loadNewPlaylist(playlist)}
+								onClick={() => player.loadPlaylist(playlist)}
 							>Play</Button>
 							<Button kind="secondary" size="small">Delete</Button>
 						</div>

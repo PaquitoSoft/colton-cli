@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAppContext } from '../../../shared/app-context/app-context';
-import { PLAYER_STATES } from '../../../../services/player';
+import Player from '../../../../services/player';
 
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import { ReactComponent as PauseIcon } from './pause-icon.svg';
@@ -11,29 +11,46 @@ import { ReactComponent as NextIcon } from './next-icon.svg';
 import './player-controls.css';
 
 function PlayerControls({ className = '' }) {
-	const { player, playerStatus } = useAppContext();
+	const { player } = useAppContext();
+	const [playerStatus, setPlayerStatus] = useState(player.getStatus());
+
+	useEffect(() => {
+		const onPlayerStatusChanged = ({ newStatus }) => setPlayerStatus(newStatus);
+		player.addEventListener(Player.events.STATUS_CHANGED, onPlayerStatusChanged);
+		return () => player.removeEventListener(Player.events.STATUS_CHANGED, onPlayerStatusChanged)
+	}, [player]);
 	
 	console.log('PlayerControls# Player status:', playerStatus);
 	return (
 		<div className={`player-controls ${className}`}>
-			<span className="player-controls__control"><PreviousIcon className="icon" /></span>
+			<span className="player-controls__control">
+				<PreviousIcon 
+					className="icon"
+					onClick={() => player.previous()}
+				/>
+			</span>
 			<span className="player-controls__control">
 				{
-					PLAYER_STATES.PLAYING === playerStatus && 
+					Player.states.PLAYING === playerStatus && 
 					<PauseIcon 
 						className="icon" 
 						onClick={() => player.pause()}
 					/>
 				}
 				{
-					PLAYER_STATES.PLAYING !== playerStatus && 
+					Player.states.PLAYING !== playerStatus && 
 					<PlayIcon 
 						className="icon" 
 						onClick={() => player.play()}
 					/>
 				}
 			</span>
-			<span className="player-controls__control"><NextIcon className="icon" /></span>
+			<span className="player-controls__control">
+				<NextIcon 
+					className="icon" 
+					onClick={() => player.next()}
+				/>
+			</span>
 		</div>
 	);
 }

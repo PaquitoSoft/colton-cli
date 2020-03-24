@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom';
 
 import { CACHE, API } from './constants';
 
-
 import * as serviceWorker from './serviceWorker';
 import { getValue } from './plugins/local-cache';
 import ApiClient from './plugins/api-client';
 
 import { AppProvider } from './components/shared/app-context/app-context';
-import { PlaylistProvider } from './components/shared/playlist-context/playlist-context';
 import App from './app';
 
 const user = getValue(CACHE.userKey);
@@ -20,10 +18,12 @@ const apiClient = new ApiClient({
 });
 
 ReactDOM.render(
-	<AppProvider apiClient={apiClient} user={user}>
-		<PlaylistProvider initialPlaylist={playlist}>
-			<App />
-		</PlaylistProvider>
+	<AppProvider 
+		apiClient={apiClient} 
+		user={user} 
+		initialPlaylist={playlist}
+	>
+		<App />
 	</AppProvider>,
 	document.getElementById('root')
 );

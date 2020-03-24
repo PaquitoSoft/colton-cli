@@ -10,20 +10,31 @@ export const PLAYER_STATES = {
 
 class Player {
 
-	#engine;
-	#tracklist = [];
-	#currentTrack;
-	#status = PLAYER_STATES.STOPPED;
-	#onStatusChange
+	static events = {
+		PLAYER_READY: 'ready',
+		STATUS_CHANGED: 'new_status',
+		TRACK_ENDED: 'track_end',
+		NEW_TRACK_PLAYING: 'new_track_playing'
+	};
 
-	constructor({ engine, onStatusChange, tracklist = [] }) {
-		this.#engine = engine;
-		this.#tracklist = tracklist;
-		this.#currentTrack = null;
-		this.#onStatusChange = onStatusChange;
+	static states = {
+		DISABLED: -1,
+		STOPPED: 0,
+		PLAYING: 1,
+		PAUSED: 2,
+		LOADING: 3,
+		BUFFERING: 5,
+	}
+
+	#engine;
+	#playlist = { tracks: [] };
+	#currentTrackIndex = 0;
+	#status = Player.states.DISABLED;
+	#eventsListeners = {};
+
+	constructor({ playlist }) {
+		if (playlist) this.#playlist = playlist;
 		
-		this.#engine.addEventListener('onStateChange', this.onEngineStateChanged.bind(this));
-		this.#engine.addEventListener('onError', this.onEngineError.bind(this));
 
 		// Engine properties
 		// "playerInfo", "cueVideoById", "loadVideoById", "cueVideoByUrl", "loadVideoByUrl", "playVideo", "pauseVideo", 
@@ -37,20 +48,30 @@ class Player {
 		// "isVideoInfoVisible", "getSphericalProperties", "setSphericalProperties", "getVideoUrl", "getMediaReferenceTime"
 	}
 
-	onEngineStateChanged(event) {
+	
+	get currentTrack() {
+		return this.#playlist.tracks[this.#currentTrackIndex];
+	}
+
+	_fireEvent(eventType, eventData) {
+		console.log('Player::_fireEvent# Firing event', eventType, 'with data:', eventData);
+		(this.#eventsListeners[eventType] || []).forEach(listener => listener(eventData));
+	}
+
+	_onEngineStateChanged(event) {
 		// -1 = Unstarted -- 0 = Ended -- 1 = Playing -- 2 = Paused -- 3 Buffering -- 5 = Video cued
 		// When the player is first loaded it sends a -1 message
 		// When the video is ready to play it sends a 5 message (<-- I don't see this behaviour)
-		// console.info("Player::vPlayerStateChangeHandler# vPlayer changed its status: " + state);
 		this.#status = Math.max(event.data, 0);
-		this.#onStatusChange(this.#status);
+		this._fireEvent(Player.events.STATUS_CHANGED, { newStatus: this.#status });
+
 		if (YT.PlayerState.ENDED === event.data) {
-			console.info("Player::onEngineStateChanged# Publicando evento de cancion finalizada.");
-			// events.trigger('trackPlaybackEnd', currentTrack);
+			console.info("Player::_onEngineStateChanged# Publicando evento de cancion finalizada.");
+			console.warn('Player::_onEngineStateChanged# TODO Play next playlist track when the current one finishes');
 		}
 	}
 
-	onEngineError(event) {
+	_onEngineError(event) {
 		/*
 			2 -> The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.
 			5 -> The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.
@@ -58,52 +79,100 @@ class Player {
 			101 -> The owner of the requested video does not allow it to be played in embedded players.
 			150 -> This error is the same as 101. It's just a 101 error in disguise!
 		*/
-		console.error("Player::onEngineError# Player raised an error code: " + event.data);
+		console.error("Player::_onEngineError# Player raised an error code: " + event.data);
 	}
 
 	_loadAndPlay(track) {
 		this.#engine.unMute();
 		this.#engine.loadVideoById({ videoId: track.externalId });
+		this._fireEvent(Player.events.NEW_TRACK_PLAYING, { newTrack: track });
 	}
 
+	loadEngine(engine) {
+		this.#engine = engine;
+		this.#status = Player.states.STOPPED;
+		
+		this.#engine.addEventListener('onStateChange', this._onEngineStateChanged.bind(this));
+		this.#engine.addEventListener('onError', this._onEngineError.bind(this));
+	}
+
+	/* ------------- PLAYER CONTROLS -------------- */
 	play(track) {
 		if (track) {
-			this.#currentTrack = track;
+			this.#playlist = { tracks: [track] };
+			this.#currentTrackIndex = 0;
 			this._loadAndPlay(track);
 			return true;
 		}
 
-		if (this.#currentTrack) {
+		if (this.#playlist.tracks.length > 0) {
 			switch (this.#status) {
 				case PLAYER_STATES.STOPPED:
-					this._loadAndPlay(this.#currentTrack);
+					this._loadAndPlay(this.currentTrack);
 					break;
 				default:
 					this.#engine.playVideo();
 			}
 		}
 	}
+
 	pause() {
 		this.#engine.pauseVideo();
 	}
-	stop() {}
-	previous() {}
-	next() {}
+
+	stop() {
+		this.#engine.stopVideo();
+	}
+
+	previous() {
+		this.#currentTrackIndex = Math.max(this.#currentTrackIndex - 1, 0);
+		this._loadAndPlay(this.currentTrack);
+	}
+
+	next() {
+		let newIndex = this.#currentTrackIndex + 1;
+		if (newIndex >= this.#playlist.tracks.length) {
+			newIndex = 0;
+		}
+
+		this.#currentTrackIndex = newIndex;
+		this._loadAndPlay(this.currentTrack);
+	}
 
 	seek() {}
 
-	loadTracklist(tracklist = []) {
-		this.#tracklist = tracklist;
+	getStatus() {
+		return this.#status;
+	}
+
+	/* ------------- TRACKLIST -------------- */
+	loadPlaylist(playlist) {
+		if (playlist) {
+			this.#playlist = playlist;
+			this.#currentTrackIndex = 0;
+			this._loadAndPlay(this.currentTrack);
+		}
 	}
 
 	addTrack(track) {
-		this.#tracklist.push(track);
+		this.#playlist.tracks.push(track);
 	}
 	
 	removeTrack(trackId) {
-		this.#tracklist = this.tracklist.filter(track => track.id !== trackId);
+		this.#playlist.tracks = this.#playlist.tracks.filter(track => track.id !== trackId);
 	}
 
+
+	/* ------------- EVENTS LISTENERS -------------- */
+	addEventListener(eventType, eventListener) {
+		this.#eventsListeners[eventType] = this.#eventsListeners[eventType] || [];
+		this.#eventsListeners[eventType].push(eventListener);
+	}
+
+	removeEventListener(eventType, eventListener) {
+		this.#eventsListeners[eventType] = (this.#eventsListeners[eventType] || [])
+			.filter(listener => listener !== eventListener);
+	}
 }
 
 export default Player;
