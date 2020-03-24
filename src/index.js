@@ -9,9 +9,11 @@ import { getValue } from './plugins/local-cache';
 import ApiClient from './plugins/api-client';
 
 import { AppProvider } from './components/shared/app-context/app-context';
+import { PlaylistProvider } from './components/shared/playlist-context/playlist-context';
 import App from './app';
 
 const user = getValue(CACHE.userKey);
+const playlist = getValue(CACHE.currentPlaylist);
 const apiClient = new ApiClient({
 	apiUrl: API.host,
 	userToken: user && user.token
@@ -19,7 +21,9 @@ const apiClient = new ApiClient({
 
 ReactDOM.render(
 	<AppProvider apiClient={apiClient} user={user}>
-		<App />
+		<PlaylistProvider initialPlaylist={playlist}>
+			<App />
+		</PlaylistProvider>
 	</AppProvider>,
 	document.getElementById('root')
 );

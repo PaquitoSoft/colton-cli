@@ -1,12 +1,23 @@
 .playlist-detail-view__title {
     margin: 0;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-xl);
 }
 
 .playlist-detail-view__info {
-    margin-bottom: 20px;
+    margin: -4px 0 8px 0;
 }
 
 .playlist-detail-view__info-data {
+    margin-right: 15px;
+}
+
+.playlist-detail-view__actions {
+    margin-bottom: 20px;
+}
+
+.playlist-detail-view__actions .app-button {
+    width: 80px;
     margin-right: 15px;
 }
 
