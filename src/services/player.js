@@ -61,14 +61,22 @@ class Player {
 		console.error("Player::onEngineError# Player raised an error code: " + event.data);
 	}
 
+	_loadAndPlay(track) {
+		this.#engine.unMute();
+		this.#engine.loadVideoById({ videoId: track.externalId });
+	}
+
 	play(track) {
-		this.#currentTrack = track || this.#currentTrack;
-		
+		if (track) {
+			this.#currentTrack = track;
+			this._loadAndPlay(track);
+			return true;
+		}
+
 		if (this.#currentTrack) {
 			switch (this.#status) {
 				case PLAYER_STATES.STOPPED:
-					this.#engine.unMute();
-					this.#engine.loadVideoById({ videoId: this.#currentTrack.externalId });
+					this._loadAndPlay(this.#currentTrack);
 					break;
 				default:
 					this.#engine.playVideo();
