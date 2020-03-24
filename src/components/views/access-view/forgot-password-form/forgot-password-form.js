@@ -21,7 +21,7 @@ function ForgotPasswordForm({ onBackClicked }) {
 				/>
 				<Button 
 					className="forgot-password-form__login-button" 
-					isActive={true}
+					kind="primary"
 				>RESET PASSWORD</Button>
 				<Link 
 					href="/login" 

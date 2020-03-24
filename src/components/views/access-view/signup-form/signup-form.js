@@ -13,7 +13,10 @@ function SignupForm() {
 				<FormInput className="login-form__form-input" type="text" name="username" placeholder="Username" required />
 				<FormInput className="login-form__form-input" type="text" name="email" placeholder="Email" required />
 				<FormInput className="login-form__form-input" type="password" name="password" placeholder="Password" required />
-				<Button className="login-form__login-button" isActive={true}>SIGN UP</Button>
+				<Button 
+					className="login-form__login-button" 
+					kind="primary"
+				>SIGN UP</Button>
 			</form>
 		</div>
 	);

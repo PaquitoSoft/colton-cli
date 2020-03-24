@@ -27,12 +27,12 @@ function AccessView() {
 				<div className="access-view__actions">
 					<Button 
 						className="access-view__action-button" 
-						isActive={currentForm !== forms.SIGNUP}
+						kind={currentForm !== forms.SIGNUP && 'primary'}
 						onClick={() => setCurrentForm(forms.LOGIN)}
 					>Log in</Button>
 					<Button 
 						className="access-view__action-button"
-						isActive={currentForm === forms.SIGNUP}
+						kind={currentForm === forms.SIGNUP && 'primary'}
 						onClick={() => setCurrentForm(forms.SIGNUP)}
 					>Sign up</Button>
 				</div>

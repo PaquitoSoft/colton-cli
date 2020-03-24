@@ -72,7 +72,7 @@ function LoginForm({ onForgotPasswordClicked, onLoginSuccess }) {
 				/>
 				<Button 
 					className="login-form__login-button" 
-					isActive={true}
+					kind="primary"
 					isWorking={isWorking}
 				>LOG IN</Button>
 				{!!formError && <Alert className="login_form__error">{formError.message}</Alert>}

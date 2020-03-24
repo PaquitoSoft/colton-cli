@@ -16,16 +16,34 @@
 	transition: background-color 0.2s;
 }
 
-.app-button--active {
-	background-color: #1ab188;
+.app-button--size-small {
+	font-size: var(--font-size-m);
+	line-height: var(--line-height-m);
+	padding: 6px 10px 4px 10px;
+}
+
+.app-button--primary {
+	background: #1ab188;
+}
+
+.app-button--secondary {
+	background: #ED217C;
 }
 
 .app-button:hover {
 	background-color: #179b77;
 }
 
+.app-button--secondary:hover {
+	background: #E15554;	
+}
+
 .app-button:disabled {
 	background-color: #373f4c;
+}
+
+.app-button:focus {
+	outline: none;
 }
 
 .app-button__loader-icon {
