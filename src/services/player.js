@@ -35,7 +35,6 @@ class Player {
 	constructor({ playlist }) {
 		if (playlist) this.#playlist = playlist;
 		
-
 		// Engine properties
 		// "playerInfo", "cueVideoById", "loadVideoById", "cueVideoByUrl", "loadVideoByUrl", "playVideo", "pauseVideo", 
 		// "stopVideo", "clearVideo", "getVideoBytesLoaded", "getVideoBytesTotal", "getVideoLoadedFraction", 
@@ -66,7 +65,6 @@ class Player {
 		this._fireEvent(Player.events.STATUS_CHANGED, { newStatus: this.#status });
 
 		if (YT.PlayerState.ENDED === event.data) {
-			console.info("Player::_onEngineStateChanged# Publicando evento de cancion finalizada.");
 			console.warn('Player::_onEngineStateChanged# TODO Play next playlist track when the current one finishes');
 		}
 	}

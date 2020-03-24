@@ -26,12 +26,11 @@ const AppContext = React.createContext({
 	toggleThemeMode: noop
 });
 
-export function AppProvider({ apiClient, user, initialPlaylist, children } ) {
+export function AppProvider({ apiClient, user, player, children } ) {
 	const initialThemeMode = getValue(STORAGE_THEME_MODE_KEY) || THEME_MODES.LIGHT;
 	const [error, setError] = useState(null);
 	const [themeMode, setThemeMode] = useState(initialThemeMode);
 	const [_user, setUser] = useState(user);
-	const player = new Player({ playlist: initialPlaylist });
 	
 	const providerInitialValue = {
 		apiClient,

@@ -15,7 +15,7 @@ function PlayerCurrentTrack({ className = '' }) {
 	useEffect(() => {
 		const onPlayerNewTrack = ({ newTrack }) => setTrack(newTrack);
 		player.addEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack);
-		return () => player.removeEventListener(Player.events.STATUS_CHANGED, onPlayerNewTrack)
+		return () => player.removeEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack)
 	}, [player]);
 
 	return (

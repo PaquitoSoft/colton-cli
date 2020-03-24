@@ -5,6 +5,7 @@ import { CACHE, API } from './constants';
 
 import * as serviceWorker from './serviceWorker';
 import { getValue } from './plugins/local-cache';
+import Player from './services/player';
 import ApiClient from './plugins/api-client';
 
 import { AppProvider } from './components/shared/app-context/app-context';
@@ -12,6 +13,7 @@ import App from './app';
 
 const user = getValue(CACHE.userKey);
 const playlist = getValue(CACHE.currentPlaylist);
+const player = new Player({ playlist });
 const apiClient = new ApiClient({
 	apiUrl: API.host,
 	userToken: user && user.token
@@ -21,7 +23,7 @@ ReactDOM.render(
 	<AppProvider 
 		apiClient={apiClient} 
 		user={user} 
-		initialPlaylist={playlist}
+		player={player}
 	>
 		<App />
 	</AppProvider>,
