@@ -10,3 +10,7 @@
     padding: 10px;
     fill: var(--white);
 }
+
+.icon-button:focus {
+	outline: none;
+}
