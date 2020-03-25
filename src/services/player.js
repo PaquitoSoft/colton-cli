@@ -78,6 +78,16 @@ class Player {
 			150 -> This error is the same as 101. It's just a 101 error in disguise!
 		*/
 		console.error("Player::_onEngineError# Player raised an error code: " + event.data);
+		switch (event.data) {
+			case 101:
+			case 150:
+				// TODO update track server side to mark it as disabled
+				this.next();
+				break;
+		
+			default:
+				break;
+		}
 	}
 
 	_loadAndPlay(track) {
