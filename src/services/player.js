@@ -65,7 +65,9 @@ class Player {
 		this._fireEvent(Player.events.STATUS_CHANGED, { newStatus: this.#status });
 
 		if (YT.PlayerState.ENDED === event.data) {
-			console.warn('Player::_onEngineStateChanged# TODO Play next playlist track when the current one finishes');
+			if (this.#currentTrackIndex !== this.#playlist.tracks.length -1) {
+				this.next();
+			}
 		}
 	}
 
