@@ -1,6 +1,7 @@
-import React, { Fragment, useEffect, useReducer } from 'react';
+import React, { Fragment, useState, useEffect, useReducer } from 'react';
 import { useParams } from "@reach/router";
 
+import Player from '../../../services/player';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { useAppContext } from '../../shared/app-context/app-context';
 
@@ -62,20 +63,24 @@ function playlistReducer(playlist, action) {
 }
 
 function PlaylistDetailView() {
-	// const [playlist, setPlaylist] = useState
 	const [playlist, dispatch] = useReducer(playlistReducer);
+	const [playingTrack, setPlayingTrack] = useState({});
 	const { player } = useAppContext();
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
 		params: { playlistId }
 	});
+	const onPlayerNewTrack = ({ newTrack }) => setPlayingTrack(newTrack);
+
 	
 	useEffect(() => {
 		if (data && data.getPlaylist) {
 			dispatch({ type: 'NEW_PLAYLIST', payload: { playlist: data.getPlaylist }});
 		}
-	}, [data]);
+		player.addEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack);
+		return () => player.removeEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack)
+	}, [data, player]);
 	
 	const onTrackFavoriteToggle = track => {
 		// TODO send mutation to server
@@ -83,7 +88,12 @@ function PlaylistDetailView() {
 	};
 
 	const onDeleteTrack = track => {
+		// TODO send mutation to server
 		dispatch({ type: 'DELETE_TRACK', payload: { track }});
+	};
+
+	const onPlayTrack = (track) => {
+		player.loadPlaylist(playlist, playlist.tracks.findIndex(_track => _track.id === track.id));
 	};
 
 	return (
@@ -114,7 +124,9 @@ function PlaylistDetailView() {
 									<TrackRow 
 										key={track.id}
 										track={track} 
-										index={index + 1} 
+										isPlayingTrack={playingTrack.id === track.id}
+										index={index + 1}
+										onPlay={onPlayTrack} 
 										onFavoriteToggle={onTrackFavoriteToggle}
 										onDeleteTrack={onDeleteTrack}
 									/>

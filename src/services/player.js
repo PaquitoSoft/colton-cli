@@ -164,12 +164,10 @@ class Player {
 	}
 
 	/* ------------- TRACKLIST -------------- */
-	loadPlaylist(playlist) {
-		if (playlist) {
-			this.#playlist = playlist;
-			this.#currentTrackIndex = 0;
-			this._loadAndPlay(this.currentTrack);
-		}
+	loadPlaylist(playlist, trackIndex = 0) {
+		this.#playlist = playlist;
+		this.#currentTrackIndex = trackIndex;
+		this._loadAndPlay(this.currentTrack);
 	}
 
 	addTrack(track) {

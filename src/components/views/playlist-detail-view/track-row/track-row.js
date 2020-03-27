@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { parseTrackDuration, formatDuration } from '../../../../plugins/time-helpers';
+
 import IconButton from '../../../shared/icon-button/icon-button';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import { ReactComponent as FavoriteNoIcon } from './favorite-no-icon.svg';
@@ -8,20 +10,24 @@ import { ReactComponent as FavoriteYesIcon } from './favorite-yes-icon.svg';
 import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
 import './track-row.css';
-import { parseTrackDuration, formatDuration } from '../../../../plugins/time-helpers';
-import { useAppContext } from '../../../shared/app-context/app-context';
 
-function TrackRow({ track, index, onFavoriteToggle, onDeleteTrack }) {
+function TrackRow({ 
+	track, 
+	isPlayingTrack = false, 
+	index, 
+	onFavoriteToggle, 
+	onPlay, 
+	onDeleteTrack 
+}) {
 	const FavoriteIcon = track.isFavorite ? FavoriteYesIcon : FavoriteNoIcon;
-	const { player } = useAppContext();
-
+	
 	return (
-		<li className="track-row">
+		<li className={`track-row ${isPlayingTrack ? 'track-row--playing' : ''}`}>
 			<div className="track-row__position">
 				<span className="track-row__index">{index}.</span>
 				<PlayIcon 
 					className="track-row__play-icon icon" 
-					onClick={() => player.play(track)}
+					onClick={() => onPlay(track)}
 				/>
 				<FavoriteIcon 
 					className="track-row__favorite-icon icon"
