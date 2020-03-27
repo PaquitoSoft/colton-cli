@@ -15,6 +15,14 @@ function PlayerCurrentTrack({ className = '' }) {
 	const [progress, setProgress] = useState({ elapsedTime: 0, elapsedPercent: 0});
 
 	const onPlayerNewTrack = ({ newTrack }) => setTrack(newTrack);
+	const onProgressBarClick = (event) => {
+		const target = !!event.target.getAttribute('data-dynamic-bar') ?
+			event.target.parentElement : event.target;
+		const totalWidth = target.clientWidth;
+		const seekPosition = Math.max(event.nativeEvent.offsetX, 0);
+
+		player.seekTo(Math.ceil((seekPosition * 100) / totalWidth));
+	}
 
 	useEffect(() => {
 		player.addEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack);
@@ -31,9 +39,10 @@ function PlayerCurrentTrack({ className = '' }) {
 				<div className="player-current-track__title">{track.title}</div>
 				<div className="player-current-track__progress">
 					<span className="player-current-track__time">{formatDuration(progress.elapsedTime)}</span>
-					<div className="player-current-track__progress-bar">
+					<div className="player-current-track__progress-bar" onClick={onProgressBarClick}>
 						<span 
 							className="player-current-track__progress-bar-indicator" 
+							data-dynamic-bar="true"
 							style={{ width: `${progress.elapsedPercent}%`}} 
 						/>
 					</div>

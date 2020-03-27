@@ -46,8 +46,8 @@ class Player {
 		return this.#playlist.tracks[this.#currentTrackIndex];
 	}
 
-	_fireEvent(eventType, eventData) {
-		console.log('Player::_fireEvent# Firing event', eventType, 'with data:', eventData);
+	_fireEvent(eventType, eventData, log = true) {
+		log && console.log('Player::_fireEvent# Firing event', eventType, 'with data:', eventData);
 		(this.#eventsListeners[eventType] || []).forEach(listener => listener(eventData));
 	}
 
@@ -93,7 +93,7 @@ class Player {
 			this._fireEvent(Player.events.PROGRESS, {
 				elapsedTime: Math.ceil(playerCurrentTime),
 				elapsedPercent: Math.ceil((playerCurrentTime * 100) / this.#engine.getDuration())
-			});
+			}, false);
 		}, 1000); // every second
 	}
 
@@ -170,7 +170,10 @@ class Player {
 		this._loadAndPlay(this.currentTrack);
 	}
 
-	seek() {}
+	seekTo(percentage) {
+		const seekToTime = Math.ceil((this.#engine.getDuration() * percentage) / 100);
+		this.#engine.seekTo(seekToTime, true);
+	}
 
 	getStatus() {
 		return this.#status;
