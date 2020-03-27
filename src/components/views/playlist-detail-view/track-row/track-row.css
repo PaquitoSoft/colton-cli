@@ -49,18 +49,28 @@
     height: 18px;
 }
 
+.track-row .track-row__playing-icon,
 .track-row .track-row__play-icon {
     position: absolute;
     left: 6px;
     padding: 1px 2px 0 0;
     background-color: var(--primary-background-color);
-    visibility: hidden;
 }
 
+.track-row--playing .track-row__playing-icon,
 .track-row--playing .track-row__play-icon {
     background-color: #373f4c;
+}
+
+.track-row .track-row__play-icon {
+    visibility: hidden;
 }
 
 .track-row:hover .track-row__play-icon {
     visibility: visible;
 }
+
+.track-row--playing .track-row__playing-icon {
+    animation: rotation 2.5s linear infinite;
+}
+

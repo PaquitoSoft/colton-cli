@@ -6,7 +6,7 @@ import IconButton from '../../../shared/icon-button/icon-button';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import { ReactComponent as FavoriteNoIcon } from './favorite-no-icon.svg';
 import { ReactComponent as FavoriteYesIcon } from './favorite-yes-icon.svg';
-// import { ReactComponent as TrackMenuIcon } from './add-icon.svg';
+import { ReactComponent as TrackPlayingIcon } from './track-playing-icon.svg';
 import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
 import './track-row.css';
@@ -25,10 +25,13 @@ function TrackRow({
 		<li className={`track-row ${isPlayingTrack ? 'track-row--playing' : ''}`}>
 			<div className="track-row__position">
 				<span className="track-row__index">{index}.</span>
-				<PlayIcon 
-					className="track-row__play-icon icon" 
-					onClick={() => onPlay(track)}
-				/>
+				{!!isPlayingTrack && <TrackPlayingIcon className="track-row__playing-icon icon" />}
+				{!isPlayingTrack && 
+					<PlayIcon 
+						className="track-row__play-icon icon" 
+						onClick={() => onPlay(track)}
+					/>
+				}
 				<FavoriteIcon 
 					className="track-row__favorite-icon icon"
 					onClick={() => {onFavoriteToggle(track)}}
