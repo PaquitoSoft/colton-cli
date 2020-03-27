@@ -4,7 +4,6 @@ import { redirectTo } from "@reach/router";
 
 import { getValue, storeValue, removeValue } from '../../../plugins/local-cache';
 import { CACHE } from '../../../constants';
-import Player from '../../../services/player';
 
 export const THEME_MODES = {
 	LIGHT: 'light',
@@ -12,6 +11,7 @@ export const THEME_MODES = {
 }
 
 const STORAGE_THEME_MODE_KEY = 'tmk';
+const SPACEBAR_KEYCODE = 32;
 const noop = () => false;
 
 const AppContext = React.createContext({
@@ -57,6 +57,14 @@ export function AppProvider({ apiClient, user, player, children } ) {
 	};
 
 	useEffect(() => {
+		const keyEventListener = (event) => {
+			console.log('Keyup event:', event);
+			if (event.keyCode === SPACEBAR_KEYCODE) {
+				player.togglePlay();
+			}
+		};
+		document.body.addEventListener('keyup', keyEventListener);
+
 		window.onYouTubeIframeAPIReady = function() {
 			let engine;
 			const onReady = () => {
@@ -75,6 +83,8 @@ export function AppProvider({ apiClient, user, player, children } ) {
 		const tag = document.createElement('script');
 		tag.src = 'https://www.youtube.com/iframe_api';
 		document.body.appendChild(tag);
+
+		return () => document.body.removeEventListener('keyup', keyEventListener);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

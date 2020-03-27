@@ -130,6 +130,14 @@ class Player {
 		this.#engine.pauseVideo();
 	}
 
+	togglePlay() {
+		if (this.#status === Player.states.PLAYING) {
+			this.pause();
+		} else {
+			this.play();
+		}
+	}
+
 	stop() {
 		this.#engine.stopVideo();
 	}
