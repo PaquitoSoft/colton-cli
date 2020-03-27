@@ -7,6 +7,10 @@
     height: 38px;
 }
 
+.player-current-track__time {
+    min-width: 35px;
+}
+
 .player-current-track__progress {
     display: flex;
     align-items: center;
@@ -27,6 +31,7 @@
     border-radius: 2px;
     display: block;
     height: 4px;
+    transition: width 0.5s;
 }
 
 .player-current-track__actions {

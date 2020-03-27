@@ -1,20 +1,13 @@
 /* global YT */
 // -1 = Unstarted -- 0 = Ended -- 1 = Playing -- 2 = Paused -- 3 Buffering -- 5 = Video cued
-export const PLAYER_STATES = {
-	STOPPED: 0,
-	PLAYING: 1,
-	PAUSED: 2,
-	LOADING: 3,
-	BUFFERING: 5,
-};
-
 class Player {
 
 	static events = {
 		PLAYER_READY: 'ready',
 		STATUS_CHANGED: 'new_status',
 		TRACK_ENDED: 'track_end',
-		NEW_TRACK_PLAYING: 'new_track_playing'
+		NEW_TRACK_PLAYING: 'new_track_playing',
+		PROGRESS: 'progress'
 	};
 
 	static states = {
@@ -31,6 +24,7 @@ class Player {
 	#currentTrackIndex = 0;
 	#status = Player.states.DISABLED;
 	#eventsListeners = {};
+	#progressMonitor;
 
 	constructor({ playlist }) {
 		if (playlist) this.#playlist = playlist;
@@ -92,10 +86,26 @@ class Player {
 		}
 	}
 
+	_startProgressMonitor() {
+		if (this.#progressMonitor) return false;
+		this.#progressMonitor = setInterval(() => {
+			const playerCurrentTime = this.#engine.getCurrentTime();
+			this._fireEvent(Player.events.PROGRESS, {
+				elapsedTime: Math.ceil(playerCurrentTime),
+				elapsedPercent: Math.ceil((playerCurrentTime * 100) / this.#engine.getDuration())
+			});
+		}, 1000); // every second
+	}
+
+	_stopProgressMonitor() {
+		clearInterval(this.#progressMonitor);
+	}
+
 	_loadAndPlay(track) {
 		this.#engine.unMute();
 		this.#engine.loadVideoById({ videoId: track.externalId });
 		this._fireEvent(Player.events.NEW_TRACK_PLAYING, { newTrack: track });
+		this._startProgressMonitor();
 	}
 
 	loadEngine(engine) {
@@ -117,17 +127,19 @@ class Player {
 
 		if (this.#playlist.tracks.length > 0) {
 			switch (this.#status) {
-				case PLAYER_STATES.STOPPED:
+				case Player.states.STOPPED:
 					this._loadAndPlay(this.currentTrack);
 					break;
 				default:
 					this.#engine.playVideo();
+					this._startProgressMonitor();
 			}
 		}
 	}
 
 	pause() {
 		this.#engine.pauseVideo();
+		this._stopProgressMonitor();
 	}
 
 	togglePlay() {
@@ -140,6 +152,7 @@ class Player {
 
 	stop() {
 		this.#engine.stopVideo();
+		this._stopProgressMonitor();
 	}
 
 	previous() {
