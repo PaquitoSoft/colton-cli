@@ -6,9 +6,19 @@ import { searchTrack } from '../../../services/music-seeker';
 import Player from '../../../services/player';
 
 import Layout from '../../layout/layout';
-import TrackRow from '../playlist-detail-view/track-row/track-row';
+import TrackRow from '../../shared/track-row/track-row';
+import IconButton from '../../shared/icon-button/icon-button';
+import { ReactComponent as AddToPlaylistIcon } from './add-to-playlist-icon.svg'; 
 
 import './search-results-view.css';
+
+function SearchResultItemActions({ onClick }) {
+	return (
+		<IconButton>
+			<AddToPlaylistIcon onClick={onClick} />
+		</IconButton>
+	)
+}
 
 function SearchResultsView() {
 	const { searchTerm } = useParams();
@@ -17,6 +27,7 @@ function SearchResultsView() {
 	const { player } = useAppContext();
 
 	const onPlayerNewTrack = ({ newTrack }) => setPlayingTrack(newTrack);
+	const addToPlaylist = (track) => console.warn('TODO: AddToPlaylist', track);
 
 	useEffect(() => {
 		setSearchResults(_searchResults => ({
@@ -57,7 +68,7 @@ function SearchResultsView() {
 									index={index + 1}
 									onPlay={() => player.play(track)} 
 									onFavoriteToggle={() => false}
-									onAddToPlaylist={() => false}
+									actions={<SearchResultItemActions onClick={() => addToPlaylist(track)} />}
 								/>
 							)
 						)}

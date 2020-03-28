@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { parseTrackDuration, formatDuration } from '../../../../plugins/time-helpers';
+import { parseTrackDuration, formatDuration } from '../../../plugins/time-helpers';
 
-import IconButton from '../../../shared/icon-button/icon-button';
+// import IconButton from '../../../shared/icon-button/icon-button';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import { ReactComponent as FavoriteNoIcon } from './favorite-no-icon.svg';
 import { ReactComponent as FavoriteYesIcon } from './favorite-yes-icon.svg';
 import { ReactComponent as TrackPlayingIcon } from './track-playing-icon.svg';
-import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
+// import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
 import './track-row.css';
 
@@ -17,9 +17,9 @@ function TrackRow({
 	track, 
 	isPlayingTrack = false, 
 	index, 
+	actions,
 	onFavoriteToggle = noop, 
-	onPlay = noop, 
-	onDeleteTrack = noop 
+	onPlay = noop
 }) {
 	const FavoriteIcon = track.isFavorite ? FavoriteYesIcon : FavoriteNoIcon;
 
@@ -41,11 +41,7 @@ function TrackRow({
 			</div>
 			<div className="track-row__title" title={track.title}>{track.title}</div>
 			<div className="track-row__duration">{formatDuration(parseTrackDuration(track.duration))}</div>
-			<div className="track-row__actions">
-				<IconButton>
-					<RemoveIcon onClick={() => onDeleteTrack(track)} />
-				</IconButton>
-			</div>
+			<div className="track-row__actions">{actions}</div>
 		</li>
 	);
 }

@@ -7,8 +7,10 @@ import { useAppContext } from '../../shared/app-context/app-context';
 
 import Layout from '../../layout/layout';
 import AppDate from '../../shared/date/date';
-import TrackRow from './track-row/track-row';
+import TrackRow from '../../shared/track-row/track-row';
 import Button from '../../shared/button/button';
+import IconButton from '../../shared/icon-button/icon-button';
+import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
 import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
 
@@ -60,6 +62,14 @@ function playlistReducer(playlist, action) {
 		default:
 			return playlist;
 	}
+}
+
+function PlaylistTrackActions({ onClick }) {
+	return (
+		<IconButton>
+			<RemoveIcon onClick={onClick} />
+		</IconButton>
+	)
 }
 
 function PlaylistDetailView() {
@@ -128,7 +138,7 @@ function PlaylistDetailView() {
 										index={index + 1}
 										onPlay={onPlayTrack} 
 										onFavoriteToggle={onTrackFavoriteToggle}
-										onDeleteTrack={onDeleteTrack}
+										actions={<PlaylistTrackActions onClick={() => onDeleteTrack(track)} />}
 									/>
 								)
 							)}
