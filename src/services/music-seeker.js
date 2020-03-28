@@ -1,15 +1,19 @@
 import { getData } from '../plugins/ajax';
 import { getValue, storeValue } from '../plugins/local-cache';
 
-const EXTERNAL_DURATION_REGEXP = /^PT(\d?\d+H)?(\d?\d+M)?(\d?\d+S)$/;
+const EXTERNAL_DURATION_REGEXP = /^PT(\d?\d+H)?(\d?\d+M)?(\d?\d+S)?$/;
 
 function parseExternalDuration(externalDuration = '') {
 	// PT1H17M46S
 	// PT46M46S
 	// PT5M1S
+	// PT4M
 	const [_, hours, minutes, seconds] = externalDuration.match(EXTERNAL_DURATION_REGEXP) || [];
-	let result = parseInt(seconds.substring(0, seconds.length - 1), 10);
+	let result = 0;
 
+	if (seconds) {
+		result += (parseInt(seconds.substring(0, seconds.length - 1), 10) * 60);
+	}
 	if (minutes) {
 		result += (parseInt(minutes.substring(0, minutes.length - 1), 10) * 60);
 	}

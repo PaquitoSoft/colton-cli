@@ -27,6 +27,7 @@
 }
 
 .mini-account__menu {
+	z-index: 5;
 	position: fixed;
 	top: 70px;
 	right: -150px;

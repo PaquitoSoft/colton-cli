@@ -112,6 +112,7 @@ class Player {
 		this.#engine = engine;
 		this.#status = Player.states.STOPPED;
 		
+		this.#engine.setVolume(100);
 		this.#engine.addEventListener('onStateChange', this._onEngineStateChanged.bind(this));
 		this.#engine.addEventListener('onError', this._onEngineError.bind(this));
 	}

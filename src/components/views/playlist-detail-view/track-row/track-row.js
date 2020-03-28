@@ -11,21 +11,23 @@ import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
 import './track-row.css';
 
+const noop = () => false;
+
 function TrackRow({ 
 	track, 
 	isPlayingTrack = false, 
 	index, 
-	onFavoriteToggle, 
-	onPlay, 
-	onDeleteTrack 
+	onFavoriteToggle = noop, 
+	onPlay = noop, 
+	onDeleteTrack = noop 
 }) {
 	const FavoriteIcon = track.isFavorite ? FavoriteYesIcon : FavoriteNoIcon;
-	
+
 	return (
 		<li className={`track-row ${isPlayingTrack ? 'track-row--playing' : ''}`}>
 			<div className="track-row__position">
 				<span className="track-row__index">{index}.</span>
-				{!!isPlayingTrack && <TrackPlayingIcon className="track-row__playing-icon icon" />}
+				{isPlayingTrack && <TrackPlayingIcon className="track-row__playing-icon icon" />}
 				{!isPlayingTrack && 
 					<PlayIcon 
 						className="track-row__play-icon icon" 
