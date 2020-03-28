@@ -2,10 +2,11 @@
     margin: 0;
     font-size: var(--font-size-xl);
     line-height: var(--line-height-xl);
+    margin-bottom: 4px;
 }
 
 .playlist-detail-view__info {
-    margin: -4px 0 8px 0;
+    margin: -4px 0 10px 0;
 }
 
 .playlist-detail-view__info-data {
