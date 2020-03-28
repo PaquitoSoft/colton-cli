@@ -58,7 +58,6 @@ export function AppProvider({ apiClient, user, player, children } ) {
 
 	useEffect(() => {
 		const keyEventListener = (event) => {
-			console.log('Keyup event:', event);
 			if (event.keyCode === SPACEBAR_KEYCODE) {
 				player.togglePlay();
 			}

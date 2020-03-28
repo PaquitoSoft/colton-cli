@@ -6,6 +6,7 @@ import { useAppContext } from './components/shared/app-context/app-context';
 import AccessView from './components/views/access-view/access-view';
 import PlaylistsView from './components/views/playlists-view/playlists-view';
 import PlaylistDetailView from './components/views/playlist-detail-view/playlist-detail-view';
+import SearchResultsView from './components/views/search-results-view/search-results-view';
 import TrendingView from './components/views/trending-view/trending-view';
 import FavoriteTracksView from './components/views/favorite-tracks-view/favorite-tracks-view';
 
@@ -34,6 +35,7 @@ function App() {
 				<Route path="/home" component={PlaylistsView} />
 				<Route path="/playlists" component={PlaylistsView} />
 				<Route path="/playlist/:playlistId" component={PlaylistDetailView} />
+				<Route path="/search/:searchTerm" component={SearchResultsView} />
 				<Route path="/favorites" component={FavoriteTracksView} />
 				<Route path="/trending" component={TrendingView} />
 				<NotFound default />
