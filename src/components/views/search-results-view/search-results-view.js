@@ -37,7 +37,7 @@ function SearchResultsView() {
 					<Fragment>
 						<h1 className="search-results-view__title">TOTAL RESULTS: {searchResults.totalResults}</h1>
 						<ol className="search-results-view__tracks">
-							{searchResults.tracks.map(track => (<li key={track.externalId}>{track.title}</li>))}
+							{searchResults.tracks.map(track => (<li key={track.externalId}>{track.title} - {track.duration}</li>))}
 						</ol>
 					</Fragment>
 				}
