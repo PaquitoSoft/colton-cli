@@ -28,7 +28,16 @@ const PLAYLIST_DETAIL_QUERY = `
 				externalId
 				title
 				duration
+				isFavorite
 			}
+		}
+	}
+`;
+
+const TOGGLE_FAVORITE_TRACK_MUTATION = `
+	mutation ToggleFavoriteTrack($track: FavoriteTrack!) {
+		toggleFavoriteTrack(track: $track) {
+			tracksCount
 		}
 	}
 `;
@@ -75,7 +84,7 @@ function PlaylistTrackActions({ onClick }) {
 function PlaylistDetailView() {
 	const [playlist, dispatch] = useReducer(playlistReducer);
 	const [playingTrack, setPlayingTrack] = useState({});
-	const { player } = useAppContext();
+	const { player, apiClient } = useAppContext();
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
@@ -93,8 +102,19 @@ function PlaylistDetailView() {
 	}, [data, player]);
 	
 	const onTrackFavoriteToggle = track => {
-		// TODO send mutation to server
 		dispatch({ type: 'TOGGLE_FAVORITE_TRACK', payload: { track }});
+
+		apiClient.sendMutation({
+			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
+			variables: { track }
+		})
+		.then(({ data }) => {
+			console.log('Toggle favorite track success:', data);
+		})
+		.catch(([error]) => {
+			console.error(error);
+			dispatch({ type: 'TOGGLE_FAVORITE_TRACK', payload: { track }});
+		});
 	};
 
 	const onDeleteTrack = track => {
