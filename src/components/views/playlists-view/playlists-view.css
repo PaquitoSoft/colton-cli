@@ -1,6 +1,22 @@
+.playlist-view__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .playlists-view__title {
-    margin: 0 0 20px 0;
+    display: inline-block;
     font-size: var(--font-size-xl);
+}
+
+.playlists-view__count {
+    font-size: var(--font-size-l);
+    margin-left: 15px;
+}
+
+.playlists-view__filter {
+    margin-right: 16px;
 }
 
 .playlists-view__list {
