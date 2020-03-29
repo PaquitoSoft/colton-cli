@@ -6,29 +6,32 @@ import { parseTrackDuration, formatDuration } from '../../../plugins/time-helper
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import { ReactComponent as FavoriteNoIcon } from './favorite-no-icon.svg';
 import { ReactComponent as FavoriteYesIcon } from './favorite-yes-icon.svg';
-import { ReactComponent as TrackPlayingIcon } from './track-playing-icon.svg';
-// import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
+import { ReactComponent as TrackIsPlayingIcon } from './track-playing-icon.svg';
 
 import './track-row.css';
+import Player from '../../../services/player';
 
 const noop = () => false;
 
 function TrackRow({ 
 	track, 
-	isPlayingTrack = false, 
+	playerTrack = {},
+	playerStatus,
 	index, 
 	actions,
 	onFavoriteToggle = noop, 
 	onPlay = noop
 }) {
 	const FavoriteIcon = track.isFavorite ? FavoriteYesIcon : FavoriteNoIcon;
+	const isPlayerTrack = track.externalId === playerTrack.externalId;
+	const playerIsPlaying = playerStatus === Player.states.PLAYING;
 
 	return (
-		<li className={`track-row ${isPlayingTrack ? 'track-row--playing' : ''}`}>
+		<li className={`track-row ${isPlayerTrack ? 'track-row--playing' : ''}`}>
 			<div className="track-row__position">
 				<span className="track-row__index">{index}.</span>
-				{isPlayingTrack && <TrackPlayingIcon className="track-row__playing-icon icon" />}
-				{!isPlayingTrack && 
+				{isPlayerTrack && playerIsPlaying && <TrackIsPlayingIcon className="track-row__playing-icon icon" />}
+				{(!isPlayerTrack || !playerIsPlaying) && 
 					<PlayIcon 
 						className="track-row__play-icon icon" 
 						onClick={() => onPlay(track)}

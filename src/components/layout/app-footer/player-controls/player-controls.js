@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useAppContext } from '../../../shared/app-context/app-context';
+import { usePlayerContext } from '../../../shared/player-context/player-context';
 import Player from '../../../../services/player';
 
 import { ReactComponent as PlayIcon } from './play-icon.svg';
@@ -11,16 +11,9 @@ import { ReactComponent as NextIcon } from './next-icon.svg';
 import './player-controls.css';
 
 function PlayerControls({ className = '' }) {
-	const { player } = useAppContext();
-	const [playerStatus, setPlayerStatus] = useState(player.getStatus());
-
-	useEffect(() => {
-		const onPlayerStatusChanged = ({ newStatus }) => setPlayerStatus(newStatus);
-		player.addEventListener(Player.events.STATUS_CHANGED, onPlayerStatusChanged);
-		return () => player.removeEventListener(Player.events.STATUS_CHANGED, onPlayerStatusChanged)
-	}, [player]);
+	const { player, status } = usePlayerContext();
 	
-	console.log('PlayerControls# Player status:', playerStatus);
+	console.log('PlayerControls# Player status:', status);
 	return (
 		<div className={`player-controls ${className}`}>
 			<span className="player-controls__control">
@@ -31,14 +24,14 @@ function PlayerControls({ className = '' }) {
 			</span>
 			<span className="player-controls__control">
 				{
-					Player.states.PLAYING === playerStatus && 
+					Player.states.PLAYING === status && 
 					<PauseIcon 
 						className="icon" 
 						onClick={() => player.pause()}
 					/>
 				}
 				{
-					Player.states.PLAYING !== playerStatus && 
+					Player.states.PLAYING !== status && 
 					<PlayIcon 
 						className="icon" 
 						onClick={() => player.play()}

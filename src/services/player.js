@@ -98,7 +98,7 @@ class Player {
 	}
 
 	_stopProgressMonitor() {
-		clearInterval(this.#progressMonitor);
+		this.#progressMonitor = clearInterval(this.#progressMonitor);
 	}
 
 	_loadAndPlay(track) {

@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect, useReducer } from 'react';
+import React, { Fragment, useEffect, useReducer } from 'react';
 import { useParams } from "@reach/router";
 
-import Player from '../../../services/player';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { useAppContext } from '../../shared/app-context/app-context';
+import { usePlayerContext } from '../../shared/player-context/player-context';
 
 import Layout from '../../layout/layout';
 import AppDate from '../../shared/date/date';
@@ -83,23 +83,19 @@ function PlaylistTrackActions({ onClick }) {
 
 function PlaylistDetailView() {
 	const [playlist, dispatch] = useReducer(playlistReducer);
-	const [playingTrack, setPlayingTrack] = useState({});
-	const { player, apiClient } = useAppContext();
+	const { player, status: playerStatus, currentTrack: playerCurrentTrack } = usePlayerContext();
+	const { apiClient } = useAppContext();
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
 		params: { playlistId }
 	});
-	const onPlayerNewTrack = ({ newTrack }) => setPlayingTrack(newTrack);
-
 	
 	useEffect(() => {
 		if (data && data.getPlaylist) {
 			dispatch({ type: 'NEW_PLAYLIST', payload: { playlist: data.getPlaylist }});
 		}
-		player.addEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack);
-		return () => player.removeEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack)
-	}, [data, player]);
+	}, [data]);
 	
 	const onTrackFavoriteToggle = track => {
 		dispatch({ type: 'TOGGLE_FAVORITE_TRACK', payload: { track }});
@@ -154,7 +150,8 @@ function PlaylistDetailView() {
 									<TrackRow 
 										key={track.id}
 										track={track} 
-										isPlayingTrack={playingTrack.id === track.id}
+										playerTrack={playerCurrentTrack}
+										playerStatus={playerStatus}
 										index={index + 1}
 										onPlay={onPlayTrack} 
 										onFavoriteToggle={onTrackFavoriteToggle}

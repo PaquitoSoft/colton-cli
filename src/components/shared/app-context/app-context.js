@@ -1,5 +1,4 @@
-/* global YT */
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { redirectTo } from "@reach/router";
 
 import { getValue, storeValue, removeValue } from '../../../plugins/local-cache';
@@ -11,7 +10,6 @@ export const THEME_MODES = {
 }
 
 const STORAGE_THEME_MODE_KEY = 'tmk';
-const SPACEBAR_KEYCODE = 32;
 const noop = () => false;
 
 const AppContext = React.createContext({
@@ -34,7 +32,6 @@ export function AppProvider({ apiClient, user, player, children } ) {
 	
 	const providerInitialValue = {
 		apiClient,
-		player,
 		currentUser: _user,
 		loginUser: (user) => {
 			setUser(user);
@@ -55,38 +52,7 @@ export function AppProvider({ apiClient, user, player, children } ) {
 			storeValue(STORAGE_THEME_MODE_KEY, newThemeMode);
 		}
 	};
-
-	useEffect(() => {
-		const keyEventListener = (event) => {
-			if (event.keyCode === SPACEBAR_KEYCODE) {
-				player.togglePlay();
-			}
-		};
-		document.body.addEventListener('keyup', keyEventListener);
-
-		window.onYouTubeIframeAPIReady = function() {
-			let engine;
-			const onReady = () => {
-				player.loadEngine(engine);
-			};
-			engine = new YT.Player('yt-player', {
-				width: '480',
-				height: '270',
-				events: { 
-					onReady,
-					onError: (error) => console.error(error)
-				}
-			});
-		};
-
-		const tag = document.createElement('script');
-		tag.src = 'https://www.youtube.com/iframe_api';
-		document.body.appendChild(tag);
-
-		return () => document.body.removeEventListener('keyup', keyEventListener);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
+	
 	return (
 		<AppContext.Provider value={providerInitialValue}>
 			{children}

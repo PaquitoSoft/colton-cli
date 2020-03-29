@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
-import { useAppContext } from '../../shared/app-context/app-context';
+import { usePlayerContext } from '../../shared/player-context/player-context';
 import { searchTrack } from '../../../services/music-seeker';
-import Player from '../../../services/player';
 
 import Layout from '../../layout/layout';
 import TrackRow from '../../shared/track-row/track-row';
@@ -22,11 +21,9 @@ function SearchResultItemActions({ onClick }) {
 
 function SearchResultsView() {
 	const { searchTerm } = useParams();
+	const { player, currentTrack: playerTrack, status: playerStatus } = usePlayerContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
-	const [playingTrack, setPlayingTrack] = useState({});
-	const { player } = useAppContext();
-
-	const onPlayerNewTrack = ({ newTrack }) => setPlayingTrack(newTrack);
+	
 	const addToPlaylist = (track) => console.warn('TODO: AddToPlaylist', track);
 
 	useEffect(() => {
@@ -46,12 +43,6 @@ function SearchResultsView() {
 			.catch(error => { console.error('Error searching...', error)})
 		}, [searchTerm]);
 		
-	useEffect(() => {		
-		player.addEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack);
-		return () => player.removeEventListener(Player.events.NEW_TRACK_PLAYING, onPlayerNewTrack)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	return (
 		<Layout>
 			<div className="search-results-view">
@@ -64,7 +55,8 @@ function SearchResultsView() {
 								<TrackRow 
 									key={track.externalId}
 									track={track} 
-									isPlayingTrack={playingTrack.externalId === track.externalId}
+									playerTrack={playerTrack}
+									playerStatus={playerStatus}
 									index={index + 1}
 									onPlay={() => player.play(track)} 
 									onFavoriteToggle={() => false}

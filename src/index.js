@@ -25,7 +25,7 @@ ReactDOM.render(
 		user={user} 
 		player={player}
 	>
-		<App />
+		<App player={player} />
 	</AppProvider>,
 	document.getElementById('root')
 );
