@@ -35,8 +35,8 @@ const PLAYLIST_DETAIL_QUERY = `
 `;
 
 const TOGGLE_FAVORITE_TRACK_MUTATION = `
-	mutation ToggleFavoriteTrack($track: FavoriteTrack!) {
-		toggleFavoriteTrack(track: $track) {
+	mutation ToggleUserFavoriteTrack($track: FavoriteTrack!) {
+		toggleUserFavoriteTrack(track: $track) {
 			tracksCount
 		}
 	}
