@@ -62,7 +62,7 @@ function SignupForm({ onSuccess }) {
 					kind="primary"
 					isWorking={isWorking}
 				>SIGN UP</Button>
-				{!!formError && <Alert className="signup-form__error">{formError.message}</Alert>}
+				{!!formError && <Alert className="signup-form__error" type="error">{formError.message}</Alert>}
 			</form>
 		</div>
 	);

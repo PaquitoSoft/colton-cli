@@ -1,4 +1,12 @@
 .app-alert {
     padding: 6px;
+    background-color: #7768AE;
+}
+
+.app-alert--warning {
+    background-color: #B99A22;
+}
+
+.app-alert--error {
     background-color: #e84855;
 }

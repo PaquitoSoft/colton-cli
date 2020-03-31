@@ -75,7 +75,7 @@ function LoginForm({ onForgotPasswordClicked, onLoginSuccess }) {
 					kind="primary"
 					isWorking={isWorking}
 				>LOG IN</Button>
-				{!!formError && <Alert className="login_form__error">{formError.message}</Alert>}
+				{!!formError && <Alert className="login_form__error" type="error">{formError.message}</Alert>}
 				<Link 
 					href="/account-reset" 
 					className="login-form__forgot-password"

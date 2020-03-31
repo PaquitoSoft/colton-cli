@@ -19,6 +19,7 @@ const RESET_PASSWORD_MUTATION = `
 function ForgotPasswordForm({ onBackClicked }) {
 	const [isWorking, setIsWorking] = useState(false);
 	const [formError, setFormError] = useState(null);
+	const [resetCompleted, setResetCompleted] = useState(false);
 	const { apiClient } = useAppContext();
 
 	const onSubmit = (event) => {
@@ -30,10 +31,11 @@ function ForgotPasswordForm({ onBackClicked }) {
 			mutation: RESET_PASSWORD_MUTATION,
 			variables: { email }
 		})
-		.then(({ data: { createUser: result} }) => {
+		.then(() => {
 			setIsWorking(false);
 			setFormError(null);
 			// TODO Show success message
+			setResetCompleted(true);
 		})
 		.catch(([error]) => {
 			setIsWorking(false);
@@ -59,7 +61,8 @@ function ForgotPasswordForm({ onBackClicked }) {
 					kind="primary"
 					isWorking={isWorking}
 				>RESET PASSWORD</Button>
-				{!!formError && <Alert className="forgot-password-form__error">{formError.message}</Alert>}
+				{!!formError && <Alert className="forgot-password-form__error" type="error">{formError.message}</Alert>}
+				{!!resetCompleted && <Alert className="forgot-password-form__success">We've just sent you an email to complete your password reset.</Alert>}
 				<Link 
 					href="/login" 
 					className="forgot-password-form__back"
