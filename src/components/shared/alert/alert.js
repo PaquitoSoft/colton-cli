@@ -2,9 +2,10 @@ import React from 'react';
 
 import './alert.css';
 
-function Alert({ className = '', children }) {
+// types: info - warning - error
+function Alert({ className = '', type = 'info', children }) {
 	return (
-		<div className={`app-alert ${className}`}>{children}</div>
+		<div className={`app-alert app-alert--${type} ${className}`}>{children}</div>
 	);
 }
 

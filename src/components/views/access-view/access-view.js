@@ -21,6 +21,11 @@ function AccessView() {
 	const { loginUser } = useAppContext();
 	const navigate = useNavigate();
 
+	const onAccessGranted = (user) => {
+		loginUser(user);
+		navigate('/home');
+	};
+
 	return (
 		<div className="access-view">
 			<div className="access-view__content">
@@ -41,13 +46,10 @@ function AccessView() {
 						currentForm === forms.LOGIN && 
 						<LoginForm 
 							onForgotPasswordClicked={() => setCurrentForm(forms.RESET)}
-							onLoginSuccess={(user) => {
-								loginUser(user);
-								navigate('/home');
-							}}
+							onLoginSuccess={onAccessGranted}
 						/>
 					}
-					{currentForm === forms.SIGNUP && <SignupForm />}
+					{currentForm === forms.SIGNUP && <SignupForm onSuccess={onAccessGranted} />}
 					{currentForm === forms.RESET && <ForgotPasswordForm onBackClicked={() => setCurrentForm(forms.LOGIN)} />}
 				</div>
 			</div>
