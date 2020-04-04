@@ -1,14 +1,15 @@
 .create-playlist__title {
     font-size: var(--font-size-l);
-    line-height: var(--line-height-l);
+    line-height: var(--line-height-xl);
     margin: 25px 0 15px 0;
 }
 
 .create-playlist__form-input {
     width: 91%;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
 }
 
 .create-playlist__save-button {
     width: 100%;
+    margin-bottom: 10px;
 }

@@ -1,10 +1,6 @@
-/* .add-to-playlist-modal {
-    min-height: 30vh;
-} */
-
 .add-to-playlist-modal__title {
     font-size: var(--font-size-l);
     line-height: var(--line-height-l);
-    padding-bottom: 10px;
+    padding: 10px 0 10px 0;
     border-bottom: 1px solid #ffffff;
 }
