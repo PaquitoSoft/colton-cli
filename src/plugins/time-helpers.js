@@ -7,7 +7,7 @@ export const DURATION_FORMAT = {
 
 export function parseTrackDuration(trackDuration) {
 	let seconds = parseInt(trackDuration, 10);
-	if (isNaN(seconds)) {
+	if (typeof trackDuration === 'string') {
 		// eslint-disable-next-line no-unused-vars
 		const[_, _minutes, _seconds] = trackDuration.match(DURATION_REGEXP);
 		seconds = (parseInt(_minutes, 10) * 60) + parseInt(_seconds, 10);
