@@ -68,3 +68,9 @@ ul, ol, h1, h2, h3, h4 {
 		transform: rotate(359deg);
 	}
 }
+
+#yt-player {
+	position: absolute;
+	bottom: 0;
+	left: -9999px;
+}
