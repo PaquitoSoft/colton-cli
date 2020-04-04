@@ -25,7 +25,7 @@ export function PlayerProvider({ player, children } ) {
 	const onPlayerNewTrack = ({ newTrack }) => setCurrentTrack(newTrack); 
 	const onPlayerNewStatus = ({ newStatus }) => setStatus(newStatus);
 	const keyEventListener = (event) => {
-		if (event.keyCode === SPACEBAR_KEYCODE) {
+		if (event.keyCode === SPACEBAR_KEYCODE && event.target.tagName !== 'INPUT') {
 			player.togglePlay();
 		}
 	};
