@@ -21,6 +21,7 @@ function CreatePlaylist({ onPlaylistCreated }) {
 					className="create-playlist__form-input"
 					name="playlistName" 
 					placeholder="Playlist name" 
+					autoFocus
 					required
 				/>
 				<Button 

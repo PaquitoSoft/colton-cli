@@ -2,15 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
 import { usePlayerContext } from '../../shared/player-context/player-context';
+import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { searchTrack } from '../../../services/music-seeker';
 
 import Layout from '../../layout/layout';
 import TrackRow from '../../shared/track-row/track-row';
 import IconButton from '../../shared/icon-button/icon-button';
 import { ReactComponent as AddToPlaylistIcon } from './add-to-playlist-icon.svg'; 
+import AddToPlaylistModal from '../../shared/add-to-playlist-modal/add-to-playlist-modal';
 
 import './search-results-view.css';
-import AddToPlaylistModal from '../../shared/add-to-playlist-modal/add-to-playlist-modal';
+
+const PLAYLISTS_QUERY = `
+	query GetUserPlaylists {
+		getPlaylistsByUser {
+			id
+			name
+		}
+	}
+`;
 
 function SearchResultItemActions({ onClick }) {
 	return (
@@ -25,6 +35,8 @@ function SearchResultsView() {
 	const { player, currentTrack: playerTrack, status: playerStatus } = usePlayerContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
+	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
+	const playlists = (data && data.getPlaylistsByUser) || [];
 	
 	const showAddToPlaylistModal = (track) => {
 		setAddToPlaylistTrack(track);
@@ -49,7 +61,7 @@ function SearchResultsView() {
 				});
 			})
 			.catch(error => { console.error('Error searching...', error)})
-		}, [searchTerm]);
+	}, [searchTerm]);
 		
 	return (
 		<Layout>
@@ -78,6 +90,7 @@ function SearchResultsView() {
 				{!!addToPlaylistTrack &&
 					<AddToPlaylistModal 
 						track={addToPlaylistTrack} 
+						playlists={playlists}
 						onExit={hideAddToPlaylistModal}
 					/>
 				}

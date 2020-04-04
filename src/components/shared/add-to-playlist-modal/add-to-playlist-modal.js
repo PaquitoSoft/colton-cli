@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import useDataFetching from '../use-data-fetching/use-data-fetching';
-
 import Modal from '../modal/modal';
 
 import './add-to-playlist-modal.css'
@@ -10,19 +8,17 @@ import CreatePlaylist from './create-playlist/create-playlist';
 import SuccessMessage from './success-message/success-message';
 import { useAppContext } from '../app-context/app-context';
 
-
-const PLAYLISTS_QUERY = `
-	query GetUserPlaylists {
-		getPlaylistsByUser {
+const ADD_TO_PLAYLIST_MUTATION = `
+	mutation AddToPlaylist($playlistId: ID!, $track: NewTrack!) {
+		addTrackToPlaylist(playlistId: $playlistId, track: $track) {
 			id
-			name
 		}
 	}
 `;
 
-const ADD_TO_PLAYLIST_MUTATION = `
-	mutation AddToPlaylist($playlistId: ID!, $track: NewTrack!) {
-		addTrackToPlaylist(playlistId: $playlistId, track: $track) {
+const CREATE_PLAYLIST_MUTATION = `
+	mutation CreatePlaylist($playlist: NewPlaylist!) {
+		createPlaylist(playlist: $playlist) {
 			id
 		}
 	}
@@ -34,12 +30,10 @@ const SUBVIEWS = {
 	SUCCESS_MESSAGE: 'success-message'
 }
 
-function AddToPlaylistModal({ track, onExit }) {
+function AddToPlaylistModal({ track, playlists = [], onExit }) {
 	const { apiClient } = useAppContext();
 	const [currentView, setCurrentView] = useState(SUBVIEWS.SELECT_PLAYLIST);
 	const [successMessage, setSuccessMessage] = useState('');
-	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
-	const playlists = (data && data.getPlaylistsByUser) || [];
 
 	const onNewPlaylistRequested = () => {
 		setCurrentView(SUBVIEWS.CREATE_PLAYLIST);
@@ -51,9 +45,9 @@ function AddToPlaylistModal({ track, onExit }) {
 		
 		apiClient.sendMutation({
 			mutation: ADD_TO_PLAYLIST_MUTATION,
-			variables: { playlistId: playlist.id, track: { ...track, duration: track.duration+'' } }
+			variables: { playlistId: playlist.id, track }
 		})
-		.then(({ data: { login: result} }) => {
+		.then(() => {
 			console.log('Track', track.title, 'added to playlist', playlist.name);
 		})
 		.catch(([error]) => {
@@ -64,7 +58,17 @@ function AddToPlaylistModal({ track, onExit }) {
 	const onPlaylistCreated = (playlistName) => {
 		setSuccessMessage(`Playlist "${playlistName}" has been created and song added to it!`);
 		setCurrentView(SUBVIEWS.SUCCESS_MESSAGE);
-		// TODO Save to server
+		
+		apiClient.sendMutation({
+			mutation: CREATE_PLAYLIST_MUTATION,
+			variables: { playlist: { name: playlistName.trim(), tracks: [track] } }
+		})
+		.then(() => {
+			console.log('New playlist created:', playlistName);
+		})
+		.catch(([error]) => {
+			console.error(error);
+		});
 	}
 
 	return (
