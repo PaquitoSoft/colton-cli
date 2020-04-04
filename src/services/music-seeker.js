@@ -1,5 +1,6 @@
 import { getData } from '../plugins/ajax';
 import { getValue, storeValue } from '../plugins/local-cache';
+import { formatDuration } from '../plugins/time-helpers';
 
 const EXTERNAL_DURATION_REGEXP = /^PT(\d?\d+H)?(\d?\d+M)?(\d?\d+S)?$/;
 
@@ -12,7 +13,7 @@ function parseExternalDuration(externalDuration = '') {
 	let result = 0;
 
 	if (seconds) {
-		result += (parseInt(seconds.substring(0, seconds.length - 1), 10) * 60);
+		result += parseInt(seconds.substring(0, seconds.length - 1), 10);
 	}
 	if (minutes) {
 		result += (parseInt(minutes.substring(0, minutes.length - 1), 10) * 60);
@@ -21,7 +22,7 @@ function parseExternalDuration(externalDuration = '') {
 		result += (parseInt(hours.substring(0, hours.length - 1), 10) * 3600);
 	}
 
-	return result;
+	return result; // duration in seconds
 }
 
 function buildSearchResults(serverResponse) {
@@ -55,7 +56,8 @@ function populateSearchResultsWithContentDetais({ searchResults, videosContentDe
 	searchResults.tracks.forEach(track => {
 		const videoDetails = videosContentDetailsMap[track.externalId];
 		if (videoDetails) {
-			track.duration = parseExternalDuration(videoDetails.duration);
+			track.length = parseExternalDuration(videoDetails.duration);
+			track.duration = formatDuration(track.length);
 		} else {
 			console.warn('No video details found for ', track.title);
 		}
@@ -75,6 +77,7 @@ export function searchTrack(searchTerm, options = {}) {
 
 	const extraParams = new URLSearchParams({
 		q: searchTerm,
+		order: 'viewCount', // relevance (default), date, rating, title, viewCount
 		maxResults: options.resultsCount || 25,
 		pageToken: options.resultsPage || ''
 	}).toString();
