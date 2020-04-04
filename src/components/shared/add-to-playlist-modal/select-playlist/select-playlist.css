@@ -1,0 +1,25 @@
+.select-playlist {
+    min-height: 30vh;
+}
+
+.select-playlist__new-playlist {
+    margin: 10px 0 10px 0;
+    width: 100%;
+}
+
+.select-playlist__list {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.select-playlist__playlist {
+    font-size: var(--font-size-l);
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.select-playlist__playlist:hover {
+    background-color: #373f4c;
+}
+

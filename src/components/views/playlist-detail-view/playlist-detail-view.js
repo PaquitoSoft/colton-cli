@@ -42,6 +42,15 @@ const TOGGLE_FAVORITE_TRACK_MUTATION = `
 	}
 `;
 
+
+const REMOVE_FROM_PLAYLIST_MUTATION = `
+	mutation RemoveTrackFromPlaylist($playlistId: ID!, $trackId: ID!) {
+		removeTrackFromPlaylist(playlistId: $playlistId, trackId: $trackId) {
+			id
+		}
+	}
+`;
+
 function getPlaylistDuration(playlistTracks) {
 	const seconds = playlistTracks.reduce((total, track) => {
 		return total + parseTrackDuration(track.duration);
@@ -63,11 +72,16 @@ function playlistReducer(playlist, action) {
 					return _track;
 				})
 			}
+		case 'ADD_TRACK':
+			return {
+				...playlist,
+				tracks: playlist.tracks.concat(action.payload.track)
+			};
 		case 'DELETE_TRACK':
 			return {
 				...playlist,
 				tracks: playlist.tracks.filter(_track => (_track.id !== action.payload.track.id))
-			}; 
+			};
 		default:
 			return playlist;
 	}
@@ -116,6 +130,18 @@ function PlaylistDetailView() {
 	const onDeleteTrack = track => {
 		// TODO send mutation to server
 		dispatch({ type: 'DELETE_TRACK', payload: { track }});
+
+		apiClient.sendMutation({
+			mutation: REMOVE_FROM_PLAYLIST_MUTATION,
+			variables: { playlistId: playlist.id, trackId: track.id }
+		})
+		.then(({ data }) => {
+			console.log('Toggle favorite track success:', data);
+		})
+		.catch(([error]) => {
+			console.error(error);
+			dispatch({ type: 'ADD_TRACK', payload: { track }});
+		});
 	};
 
 	const onPlayTrack = (track) => {

@@ -26,6 +26,7 @@ function TrackRow({
 	const isPlayerTrack = track.externalId === playerTrack.externalId;
 	const playerIsPlaying = playerStatus === Player.states.PLAYING;
 
+	// TODO Look for an alternative to title dangerously html
 	return (
 		<li className={`track-row ${isPlayerTrack ? 'track-row--playing' : ''}`}>
 			<div className="track-row__position">
@@ -42,7 +43,11 @@ function TrackRow({
 					onClick={() => {onFavoriteToggle(track)}}
 				/>
 			</div>
-			<div className="track-row__title" title={track.title}>{track.title}</div>
+			<div 
+				className="track-row__title"
+				dangerouslySetInnerHTML={{ __html: track.title }}
+				title={track.title}
+			></div>
 			<div className="track-row__duration">{formatDuration(parseTrackDuration(track.duration))}</div>
 			<div className="track-row__actions">{actions}</div>
 		</li>

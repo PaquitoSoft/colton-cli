@@ -10,6 +10,7 @@ import IconButton from '../../shared/icon-button/icon-button';
 import { ReactComponent as AddToPlaylistIcon } from './add-to-playlist-icon.svg'; 
 
 import './search-results-view.css';
+import AddToPlaylistModal from '../../shared/add-to-playlist-modal/add-to-playlist-modal';
 
 function SearchResultItemActions({ onClick }) {
 	return (
@@ -23,8 +24,15 @@ function SearchResultsView() {
 	const { searchTerm } = useParams();
 	const { player, currentTrack: playerTrack, status: playerStatus } = usePlayerContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
+	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	
-	const addToPlaylist = (track) => console.warn('TODO: AddToPlaylist', track);
+	const showAddToPlaylistModal = (track) => {
+		setAddToPlaylistTrack(track);
+	};
+
+	const hideAddToPlaylistModal = () => {
+		setAddToPlaylistTrack(null);
+	};
 
 	useEffect(() => {
 		setSearchResults(_searchResults => ({
@@ -60,11 +68,18 @@ function SearchResultsView() {
 									index={index + 1}
 									onPlay={() => player.play(track)} 
 									onFavoriteToggle={() => false}
-									actions={<SearchResultItemActions onClick={() => addToPlaylist(track)} />}
+									actions={<SearchResultItemActions onClick={() => showAddToPlaylistModal(track)} />}
 								/>
 							)
 						)}
 					</ol>
+				}
+
+				{!!addToPlaylistTrack &&
+					<AddToPlaylistModal 
+						track={addToPlaylistTrack} 
+						onExit={hideAddToPlaylistModal}
+					/>
 				}
 			</div>
 		</Layout>
