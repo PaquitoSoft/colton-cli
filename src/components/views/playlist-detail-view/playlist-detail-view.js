@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useReducer } from 'react';
-import { useParams } from "@reach/router";
+import { useParams, useNavigate } from "@reach/router";
 
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { useAppContext } from '../../shared/app-context/app-context';
@@ -31,6 +31,12 @@ const PLAYLIST_DETAIL_QUERY = `
 				isFavorite
 			}
 		}
+	}
+`;
+
+const REMOVE_PLAYLIST_MUTATION = `
+	mutation RemovePlaylist($playlistId: ID!) {
+		removePlaylist(playlistId: $playlistId)
 	}
 `;
 
@@ -96,6 +102,7 @@ function PlaylistTrackActions({ onClick }) {
 }
 
 function PlaylistDetailView() {
+	const navigate = useNavigate();
 	const [playlist, dispatch] = useReducer(playlistReducer);
 	const { player, status: playerStatus, currentTrack: playerCurrentTrack } = usePlayerContext();
 	const { apiClient } = useAppContext();
@@ -128,7 +135,6 @@ function PlaylistDetailView() {
 	};
 
 	const onDeleteTrack = track => {
-		// TODO send mutation to server
 		dispatch({ type: 'DELETE_TRACK', payload: { track }});
 
 		apiClient.sendMutation({
@@ -147,6 +153,19 @@ function PlaylistDetailView() {
 	const onPlayTrack = (track) => {
 		player.loadPlaylist(playlist, playlist.tracks.findIndex(_track => _track.id === track.id));
 	};
+
+	const onDeletePlaylist = () => {
+		apiClient.sendMutation({
+			mutation: REMOVE_PLAYLIST_MUTATION,
+			variables: { playlistId: playlist.id }
+		})
+		.then(() => {
+			navigate('/playlists');
+		})
+		.catch(([error]) => {
+			console.error(error);
+		});
+	}
 
 	return (
 		<Layout>
@@ -168,7 +187,11 @@ function PlaylistDetailView() {
 								size="small"
 								onClick={() => player.loadPlaylist(playlist)}
 							>Play</Button>
-							<Button kind="secondary" size="small">Delete</Button>
+							<Button 
+								kind="secondary" 
+								size="small"
+								onClick={onDeletePlaylist}
+							>Delete</Button>
 						</div>
 						<ol className="playlist-detail-view__tracklist">
 							{playlist.tracks.map(
