@@ -12,12 +12,6 @@ function AppSidebar() {
 			<span className="app-sidebar__logo">COLTON</span>
 			<ul className="app-sidebar__sections">
 				<li className="app-sidebar__section">
-					<Link href="/trending">
-						<TrendingIcon className="app-sidebar__icon" />
-						<span>Trending</span>
-					</Link>
-				</li>
-				<li className="app-sidebar__section">
 					<Link href="/playlists">
 						<PlaylistsIcon className="app-sidebar__icon" />
 						<span>Playlists</span>
@@ -27,6 +21,12 @@ function AppSidebar() {
 					<Link href="/favorites">
 						<FavoritesIcon className="app-sidebar__icon" />
 						<span>Favorites</span>
+					</Link>
+				</li>
+				<li className="app-sidebar__section">
+					<Link href="/trending">
+						<TrendingIcon className="app-sidebar__icon" />
+						<span>Trending</span>
 					</Link>
 				</li>
 			</ul>
