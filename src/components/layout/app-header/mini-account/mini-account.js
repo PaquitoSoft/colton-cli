@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from '@reach/router';
 import md5 from 'md5';
 
 import { useAppContext } from '../../../shared/app-context/app-context';
@@ -6,6 +7,7 @@ import { useAppContext } from '../../../shared/app-context/app-context';
 import './mini-account.css';
 
 function MiniAccount() {
+	const navigate = useNavigate();
 	const { currentUser, logoutUser } = useAppContext();
 	const [isMenuVisible, setIsMenuVisible] = useState(false);
 	const onKeyup = (event) => {
@@ -35,7 +37,7 @@ function MiniAccount() {
 			</button>
 			<div className={`mini-account__menu ${isMenuVisible ? 'mini-account__menu--visible' : ''}`}>
 				<ul className="mini-account__list">
-					<li className="mini-account__list-item">Settings</li>
+					<li className="mini-account__list-item" onClick={() => navigate('/settings')}>Settings</li>
 					<li className="mini-account__list-item" onClick={logoutUser}>Logout</li>
 				</ul>
 			</div>

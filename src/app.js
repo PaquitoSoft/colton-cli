@@ -10,6 +10,7 @@ import PlaylistDetailView from './components/views/playlist-detail-view/playlist
 import SearchResultsView from './components/views/search-results-view/search-results-view';
 import TrendingView from './components/views/trending-view/trending-view';
 import FavoriteTracksView from './components/views/favorite-tracks-view/favorite-tracks-view';
+import SettingsView from './components/views/settings-view/settings-view';
 
 import './app.css';
 
@@ -40,6 +41,7 @@ function App({ player }) {
 					<Route path="/search/:searchTerm" component={SearchResultsView} />
 					<Route path="/favorites" component={FavoriteTracksView} />
 					<Route path="/trending" component={TrendingView} />
+					<Route path="/settings" component={SettingsView} />
 					<NotFound default />
 				</Router>
 			</PlayerProvider>

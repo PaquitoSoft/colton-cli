@@ -3,6 +3,7 @@
     background-image: none;
     border: 1px solid #a0b3b0;
     color: var(--white);
+    display: block;
     font-size: var(--font-size-l);
     padding: 5px 10px;
     transition: border-color .25s ease, box-shadow .25s ease;
