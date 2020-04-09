@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
+import { useAppContext } from '../../shared/app-context/app-context';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { searchTrack } from '../../../services/music-seeker';
 
@@ -21,6 +22,14 @@ const PLAYLISTS_QUERY = `
 	}
 `;
 
+const TOGGLE_FAVORITE_TRACK_MUTATION = `
+	mutation ToggleUserFavoriteTrack($track: FavoriteTrack!) {
+		toggleUserFavoriteTrack(track: $track) {
+			tracksCount
+		}
+	}
+`;
+
 function SearchResultItemActions({ onClick }) {
 	return (
 		<IconButton>
@@ -29,8 +38,23 @@ function SearchResultItemActions({ onClick }) {
 	)
 }
 
+function toggleFavoriteSearchResult(searchResults, track) {
+	const updatedTracks = searchResults.tracks.map(searchResult => {
+		if (searchResult.externalId === track.externalId) {
+			searchResult.isFavorite = !searchResult.isFavorite;
+		}
+		return searchResult;
+	});
+	return {
+		...searchResults,
+		tracks: updatedTracks
+	};
+}
+
+// TODO Set favorite attributes to search results
 function SearchResultsView() {
 	const { searchTerm } = useParams();
+	const { apiClient } = useAppContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
@@ -61,6 +85,20 @@ function SearchResultsView() {
 			.catch(error => { console.error('Error searching...', error)})
 	}, [searchTerm]);
 
+	const onTrackFavoriteToggle = track => {
+		setSearchResults(toggleFavoriteSearchResult(searchResults, track));
+
+		apiClient.sendMutation({
+			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
+			variables: { track }
+		})
+		.catch(([error]) => {
+			// TODO Handle error
+			console.error(error);
+			setSearchResults(toggleFavoriteSearchResult(searchResults, track));
+		});
+	};
+
 	return (
 		<Layout>
 			<div className="search-results-view">
@@ -74,7 +112,7 @@ function SearchResultsView() {
 									key={track.externalId}
 									track={track} 
 									index={index + 1}
-									onFavoriteToggle={() => false}
+									onFavoriteToggle={onTrackFavoriteToggle}
 									actions={<SearchResultItemActions onClick={() => showAddToPlaylistModal(track)} />}
 								/>
 							)
