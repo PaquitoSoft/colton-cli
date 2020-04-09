@@ -10,6 +10,7 @@ import './create-playlist.css';
 function CreatePlaylist({ onPlaylistCreated }) {
 	const onSubmit = (event) => {
 		const { playlistName } = getDataFromForm(event.target);
+		event.preventDefault();
 		onPlaylistCreated(playlistName);
 	};
 
