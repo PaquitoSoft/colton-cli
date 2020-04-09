@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
-import { usePlayerContext } from '../../shared/player-context/player-context';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { searchTrack } from '../../../services/music-seeker';
 
@@ -32,7 +31,6 @@ function SearchResultItemActions({ onClick }) {
 
 function SearchResultsView() {
 	const { searchTerm } = useParams();
-	const { player, currentTrack: playerTrack, status: playerStatus } = usePlayerContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
@@ -62,7 +60,7 @@ function SearchResultsView() {
 			})
 			.catch(error => { console.error('Error searching...', error)})
 	}, [searchTerm]);
-		
+
 	return (
 		<Layout>
 			<div className="search-results-view">
@@ -75,10 +73,7 @@ function SearchResultsView() {
 								<TrackRow 
 									key={track.externalId}
 									track={track} 
-									playerTrack={playerTrack}
-									playerStatus={playerStatus}
 									index={index + 1}
-									onPlay={() => player.play(track)} 
 									onFavoriteToggle={() => false}
 									actions={<SearchResultItemActions onClick={() => showAddToPlaylistModal(track)} />}
 								/>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAppContext } from '../../shared/app-context/app-context';
-import { usePlayerContext } from '../../shared/player-context/player-context';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 
 import Layout from '../../layout/layout';
@@ -38,7 +37,6 @@ const TOGGLE_FAVORITE_TRACK_MUTATION = `
 function FavoriteTracksView() {
 	const { apiClient } = useAppContext();
 	const [favoritesPlaylist, setFavoritesPlaylist] = useState();
-	const { player, status: playerStatus, currentTrack: playerCurrentTrack } = usePlayerContext();
 	const { isFetching, data } = useDataFetching({
 		query: FAVORITE_TRACKS_QUERY
 	});
@@ -59,20 +57,12 @@ function FavoriteTracksView() {
 			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
 			variables: { track }
 		})
-		.then(({ data }) => {
-			console.log('Toggle favorite track success:', data);
-		})
 		.catch(([error]) => {
 			// TODO Handle error
 			console.error(error);
 			favoritesPlaylist.tracks.splice(trackIndex, 0, track);
 			setFavoritesPlaylist({ ...favoritesPlaylist });
 		});
-	};
-
-	const onPlayTrack = (track) => {
-		player.loadPlaylist(favoritesPlaylist, favoritesPlaylist.tracks
-			.findIndex(_track => _track.id === track.id));
 	};
 
 	if (!isFetching) {
@@ -91,10 +81,8 @@ function FavoriteTracksView() {
 								<TrackRow 
 									key={track.id}
 									track={track} 
-									playerTrack={playerCurrentTrack}
-									playerStatus={playerStatus}
 									index={index + 1}
-									onPlay={onPlayTrack} 
+									playlist={favoritesPlaylist}
 									onFavoriteToggle={onTrackFavoriteToggle}
 								/>
 							)

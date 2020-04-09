@@ -7,6 +7,8 @@ const SPACEBAR_KEYCODE = 32;
 
 const PlayerContext = React.createContext({
 	player: undefined,
+	playerStates: Player.states,
+	playerEvents: Player.events,
 	status: Player.states.STOPPED,
 	currentTrack: undefined,
 	progress: {}
@@ -19,6 +21,8 @@ export function PlayerProvider({ player, children } ) {
 	const providerInitialValue = {
 		player,
 		status,
+		playerStates: Player.states,
+		playerEvents: Player.events,
 		currentTrack
 	};
 

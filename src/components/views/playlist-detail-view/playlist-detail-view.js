@@ -104,7 +104,7 @@ function PlaylistTrackActions({ onClick }) {
 function PlaylistDetailView() {
 	const navigate = useNavigate();
 	const [playlist, dispatch] = useReducer(playlistReducer);
-	const { player, status: playerStatus, currentTrack: playerCurrentTrack } = usePlayerContext();
+	const { player } = usePlayerContext();
 	const { apiClient } = useAppContext();
 	const { playlistId } = useParams();
 	const { isFetching, data } = useDataFetching({
@@ -124,9 +124,6 @@ function PlaylistDetailView() {
 		apiClient.sendMutation({
 			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
 			variables: { track }
-		})
-		.then(({ data }) => {
-			console.log('Toggle favorite track success:', data);
 		})
 		.catch(([error]) => {
 			console.error(error);
@@ -148,10 +145,6 @@ function PlaylistDetailView() {
 			console.error(error);
 			dispatch({ type: 'ADD_TRACK', payload: { track }});
 		});
-	};
-
-	const onPlayTrack = (track) => {
-		player.loadPlaylist(playlist, playlist.tracks.findIndex(_track => _track.id === track.id));
 	};
 
 	const onDeletePlaylist = () => {
@@ -199,10 +192,8 @@ function PlaylistDetailView() {
 									<TrackRow 
 										key={track.id}
 										track={track} 
-										playerTrack={playerCurrentTrack}
-										playerStatus={playerStatus}
 										index={index + 1}
-										onPlay={onPlayTrack} 
+										playlist={playlist}
 										onFavoriteToggle={onTrackFavoriteToggle}
 										actions={<PlaylistTrackActions onClick={() => onDeleteTrack(track)} />}
 									/>
