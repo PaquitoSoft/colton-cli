@@ -9,6 +9,7 @@ function parseExternalDuration(externalDuration = '') {
 	// PT46M46S
 	// PT5M1S
 	// PT4M
+	// eslint-disable-next-line no-unused-vars
 	const [_, hours, minutes, seconds] = externalDuration.match(EXTERNAL_DURATION_REGEXP) || [];
 	let result = 0;
 
