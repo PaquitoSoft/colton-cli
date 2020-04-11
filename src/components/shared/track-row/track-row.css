@@ -7,7 +7,11 @@
 }
 
 .track-row--playing {
-    background-color: #373f4c;
+    background-color: var(--color-grey-primary);
+}
+
+.track-row--disabled {
+    background-color: var(--color-red-secondary);
 }
 
 .track-row__position,
@@ -49,8 +53,8 @@
     height: 18px;
 }
 
-.track-row .track-row__playing-icon,
-.track-row .track-row__play-icon {
+.track-row__playing-icon,
+.track-row__play-icon {
     position: absolute;
     left: 6px;
     padding: 1px 2px 0 0;
@@ -62,7 +66,7 @@
     background-color: #373f4c;
 }
 
-.track-row .track-row__play-icon {
+.track-row__play-icon {
     visibility: hidden;
 }
 
@@ -74,3 +78,12 @@
     animation: rotation 2.5s linear infinite;
 }
 
+.track-row--disabled .track-row__play-icon,
+.track-row--disabled .track-row__favorite-icon {
+    cursor: not-allowed;
+}
+
+.track-row--disabled:hover .track-row__play-icon,
+.track-row--disabled .track-row__playing-icon {
+    visibility: hidden;
+}

@@ -7,6 +7,7 @@ class Player {
 		STATUS_CHANGED: 'new_status',
 		TRACK_ENDED: 'track_end',
 		NEW_TRACK_PLAYING: 'new_track_playing',
+		INVALID_TRACK: 'invalid_track',
 		PROGRESS: 'progress'
 	};
 
@@ -67,23 +68,17 @@ class Player {
 
 	_onEngineError(event) {
 		/*
-			2 -> The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.
+			2 -> The request contains an invalid parameter value. For example, this error occurs if you specify a video ID 
+					that does not have 11 characters, or if the video ID contains invalid characters, 
+					such as exclamation points or asterisks.
 			5 -> The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.
 			100 -> The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.
 			101 -> The owner of the requested video does not allow it to be played in embedded players.
 			150 -> This error is the same as 101. It's just a 101 error in disguise!
 		*/
 		console.error("Player::_onEngineError# Player raised an error code: " + event.data);
-		switch (event.data) {
-			case 101:
-			case 150:
-				// TODO update track server side to mark it as disabled
-				this.next();
-				break;
-		
-			default:
-				break;
-		}
+		this._fireEvent(Player.events.INVALID_TRACK, { track: this.currentTrack });
+		this.next();
 	}
 
 	_startProgressMonitor() {

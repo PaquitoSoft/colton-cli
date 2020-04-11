@@ -29,6 +29,7 @@ const PLAYLIST_DETAIL_QUERY = `
 				title
 				duration
 				isFavorite
+				isDisabled
 			}
 		}
 	}

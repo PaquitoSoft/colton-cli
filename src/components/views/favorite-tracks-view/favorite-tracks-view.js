@@ -19,6 +19,7 @@ const FAVORITE_TRACKS_QUERY = `
 				duration
 				length
 				isFavorite
+				isDisabled
 				thumbnailUrl
 			}
 		}
