@@ -2,8 +2,10 @@ import React, { Fragment, useEffect, useReducer } from 'react';
 import { useParams, useNavigate } from "@reach/router";
 
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
+import useToggleFavoriteTrack from '../../shared/use-toggle-favorite-track/use-toggle-favorite-track';
 import { useAppContext } from '../../shared/app-context/app-context';
 import { usePlayerContext } from '../../shared/player-context/player-context';
+import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
 
 import Layout from '../../layout/layout';
 import AppDate from '../../shared/date/date';
@@ -12,7 +14,6 @@ import Button from '../../shared/button/button';
 import IconButton from '../../shared/icon-button/icon-button';
 import { ReactComponent as RemoveIcon } from './remove-from-playlist.svg';
 
-import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
 
 import './playlist-detail-view.css';
 
@@ -40,15 +41,6 @@ const REMOVE_PLAYLIST_MUTATION = `
 		removePlaylist(playlistId: $playlistId)
 	}
 `;
-
-const TOGGLE_FAVORITE_TRACK_MUTATION = `
-	mutation ToggleUserFavoriteTrack($track: FavoriteTrack!) {
-		toggleUserFavoriteTrack(track: $track) {
-			tracksCount
-		}
-	}
-`;
-
 
 const REMOVE_FROM_PLAYLIST_MUTATION = `
 	mutation RemoveTrackFromPlaylist($playlistId: ID!, $trackId: ID!) {
@@ -108,6 +100,7 @@ function PlaylistDetailView() {
 	const { player } = usePlayerContext();
 	const { apiClient } = useAppContext();
 	const { playlistId } = useParams();
+	const { toggleFavoriteTrack } = useToggleFavoriteTrack();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
 		params: { playlistId }
@@ -122,10 +115,7 @@ function PlaylistDetailView() {
 	const onTrackFavoriteToggle = track => {
 		dispatch({ type: 'TOGGLE_FAVORITE_TRACK', payload: { track }});
 
-		apiClient.sendMutation({
-			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
-			variables: { track }
-		})
+		toggleFavoriteTrack(track)
 		.catch(([error]) => {
 			console.error(error);
 			dispatch({ type: 'TOGGLE_FAVORITE_TRACK', payload: { track }});

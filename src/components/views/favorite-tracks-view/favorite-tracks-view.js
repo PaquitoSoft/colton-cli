@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAppContext } from '../../shared/app-context/app-context';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
+import useToggleFavoriteTrack from '../../shared/use-toggle-favorite-track/use-toggle-favorite-track';
 
 import Layout from '../../layout/layout';
 import TrackRow from '../../shared/track-row/track-row';
@@ -26,17 +26,9 @@ const FAVORITE_TRACKS_QUERY = `
 	}
 `;
 
-const TOGGLE_FAVORITE_TRACK_MUTATION = `
-	mutation ToggleUserFavoriteTrack($track: FavoriteTrack!) {
-		toggleUserFavoriteTrack(track: $track) {
-			tracksCount
-		}
-	}
-`;
-
 // TODO Code duplicated with PlaylistDetailView
 function FavoriteTracksView() {
-	const { apiClient } = useAppContext();
+	const { toggleFavoriteTrack } = useToggleFavoriteTrack();
 	const [favoritesPlaylist, setFavoritesPlaylist] = useState();
 	const { isFetching, data } = useDataFetching({
 		query: FAVORITE_TRACKS_QUERY
@@ -54,10 +46,7 @@ function FavoriteTracksView() {
 		favoritesPlaylist.tracks.splice(trackIndex, 1);
 		setFavoritesPlaylist({ ...favoritesPlaylist });
 
-		apiClient.sendMutation({
-			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
-			variables: { track }
-		})
+		toggleFavoriteTrack(track)
 		.catch(([error]) => {
 			// TODO Handle error
 			console.error(error);

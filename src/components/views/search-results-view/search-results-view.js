@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
-import { useAppContext } from '../../shared/app-context/app-context';
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
 import { searchTrack } from '../../../services/music-seeker';
 
@@ -12,20 +11,13 @@ import { ReactComponent as AddToPlaylistIcon } from './add-to-playlist-icon.svg'
 import AddToPlaylistModal from '../../shared/add-to-playlist-modal/add-to-playlist-modal';
 
 import './search-results-view.css';
+import useToggleFavoriteTrack from '../../shared/use-toggle-favorite-track/use-toggle-favorite-track';
 
 const PLAYLISTS_QUERY = `
 	query GetUserPlaylists {
 		getPlaylistsByUser {
 			id
 			name
-		}
-	}
-`;
-
-const TOGGLE_FAVORITE_TRACK_MUTATION = `
-	mutation ToggleUserFavoriteTrack($track: FavoriteTrack!) {
-		toggleUserFavoriteTrack(track: $track) {
-			tracksCount
 		}
 	}
 `;
@@ -51,10 +43,10 @@ function toggleFavoriteSearchResult(searchResults, track) {
 	};
 }
 
-// TODO Set favorite attributes to search results
+// TODO Set favorite attribute to search results
 function SearchResultsView() {
 	const { searchTerm } = useParams();
-	const { apiClient } = useAppContext();
+	const { toggleFavoriteTrack } = useToggleFavoriteTrack();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
@@ -88,15 +80,11 @@ function SearchResultsView() {
 	const onTrackFavoriteToggle = track => {
 		setSearchResults(toggleFavoriteSearchResult(searchResults, track));
 
-		apiClient.sendMutation({
-			mutation: TOGGLE_FAVORITE_TRACK_MUTATION,
-			variables: { track }
-		})
-		.catch(([error]) => {
-			// TODO Handle error
-			console.error(error);
-			setSearchResults(toggleFavoriteSearchResult(searchResults, track));
-		});
+		toggleFavoriteTrack(track)
+			.catch(([error]) => {
+				console.error(error);
+				setSearchResults(toggleFavoriteSearchResult(searchResults, track));
+			});
 	};
 
 	return (
