@@ -11,6 +11,12 @@ import ApiClient from './plugins/api-client';
 import { AppProvider } from './components/shared/app-context/app-context';
 import App from './app';
 
+if (process.env.NODE_ENV === 'production') {
+	if (window.location.protocol === 'http') {
+		window.location.href = window.location.href.replace('http', 'https');
+	}
+}
+
 const user = getValue(CACHE.userKey);
 const playlist = getValue(CACHE.currentPlaylist);
 const player = new Player({ playlist });
