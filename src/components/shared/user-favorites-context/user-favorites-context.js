@@ -4,7 +4,6 @@ import { useAppContext } from '../app-context/app-context';
 
 const UserFavoritesContext = React.createContext({
 	favoritesPlaylist: null,
-	invalidateFavorites: null,
 	toggleFavoriteTrack: null
 });
 
@@ -39,16 +38,6 @@ const TOGGLE_FAVORITE_TRACK_MUTATION = `
 export function UserFavoritesProvider({ children } ) {
 	const { currentUser, apiClient } = useAppContext();
 	const [favoritesPlaylist, setFavoritesPlaylist] = useState();	
-	
-	const invalidateFavorites = () => {
-		apiClient.sendQuery({
-			query: FAVORITE_TRACKS_QUERY
-		})
-		.then(({ data: { getUserFavoritesPlaylist } }) => {
-			setFavoritesPlaylist(getUserFavoritesPlaylist);
-		})
-		.catch(console.error);
-	};
 
 	const toggleFavoriteTrack = track => {
 		return new Promise((resolve, reject) => {
@@ -84,12 +73,17 @@ export function UserFavoritesProvider({ children } ) {
 
 	const providerInitialValue = {
 		favoritesPlaylist,
-		invalidateFavorites,
 		toggleFavoriteTrack
 	};
 
 	useEffect(() => {
-		invalidateFavorites();
+		apiClient.sendQuery({
+			query: FAVORITE_TRACKS_QUERY
+		})
+		.then(({ data: { getUserFavoritesPlaylist } }) => {
+			setFavoritesPlaylist(getUserFavoritesPlaylist);
+		})
+		.catch(console.error);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentUser]);
 
