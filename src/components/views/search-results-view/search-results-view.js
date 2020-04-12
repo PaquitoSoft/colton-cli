@@ -43,10 +43,18 @@ function toggleFavoriteSearchResult(searchResults, track) {
 	};
 }
 
+function populateSearchResultsWithFavorites(searchResults, userFavoriteTracks = []) {
+	const favoriteTracksIds = userFavoriteTracks.map(track => track.externalId);
+	return searchResults.map(searchResult => ({
+		...searchResult,
+		isFavorite: favoriteTracksIds.includes(searchResult.externalId)
+	}));
+}
+
 // TODO Set favorite attribute to search results
 function SearchResultsView() {
 	const { searchTerm } = useParams();
-	const { toggleFavoriteTrack } = useUserFavoritesTracksContext();
+	const { favoritesPlaylist, toggleFavoriteTrack } = useUserFavoritesTracksContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });
@@ -71,11 +79,12 @@ function SearchResultsView() {
 				console.log('These are the search results:', searchResult);
 				setSearchResults({
 					...searchResult,
+					tracks: populateSearchResultsWithFavorites(searchResult.tracks, favoritesPlaylist?.tracks),
 					isSearching: false
 				});
 			})
 			.catch(error => { console.error('Error searching...', error)})
-	}, [searchTerm]);
+	}, [searchTerm, favoritesPlaylist]);
 
 	const onTrackFavoriteToggle = track => {
 		setSearchResults(toggleFavoriteSearchResult(searchResults, track));
