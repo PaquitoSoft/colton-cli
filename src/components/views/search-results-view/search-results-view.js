@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from '@reach/router';
 
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
+import { useUserFavoritesTracksContext } from '../../shared/user-favorites-context/user-favorites-context';
 import { searchTrack } from '../../../services/music-seeker';
 
 import Layout from '../../layout/layout';
@@ -11,7 +12,6 @@ import { ReactComponent as AddToPlaylistIcon } from './add-to-playlist-icon.svg'
 import AddToPlaylistModal from '../../shared/add-to-playlist-modal/add-to-playlist-modal';
 
 import './search-results-view.css';
-import useToggleFavoriteTrack from '../../shared/use-toggle-favorite-track/use-toggle-favorite-track';
 
 const PLAYLISTS_QUERY = `
 	query GetUserPlaylists {
@@ -46,7 +46,7 @@ function toggleFavoriteSearchResult(searchResults, track) {
 // TODO Set favorite attribute to search results
 function SearchResultsView() {
 	const { searchTerm } = useParams();
-	const { toggleFavoriteTrack } = useToggleFavoriteTrack();
+	const { toggleFavoriteTrack } = useUserFavoritesTracksContext();
 	const [searchResults, setSearchResults] = useState({ isSearching: true });
 	const [addToPlaylistTrack, setAddToPlaylistTrack] = useState(null);
 	const { data } = useDataFetching({ query: PLAYLISTS_QUERY });

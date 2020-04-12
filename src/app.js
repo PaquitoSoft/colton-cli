@@ -2,8 +2,9 @@ import React from 'react';
 import { Router, Redirect } from '@reach/router';
 
 import { useAppContext } from './components/shared/app-context/app-context';
-
 import { PlayerProvider } from './components/shared/player-context/player-context';
+import { UserFavoritesProvider } from './components/shared/user-favorites-context/user-favorites-context';
+
 import AccessView from './components/views/access-view/access-view';
 import PlaylistsView from './components/views/playlists-view/playlists-view';
 import PlaylistDetailView from './components/views/playlist-detail-view/playlist-detail-view';
@@ -32,18 +33,20 @@ function App({ player }) {
 	return (
 		<div className="app">
 			<PlayerProvider player={player}>
-				<Router>
-					<Redirect from="/" to="/playlists" noThrow />
-					<Route path="/login" component={AccessView} isPublic={true} />
-					<Route path="/home" component={PlaylistsView} />
-					<Route path="/playlists" component={PlaylistsView} />
-					<Route path="/playlist/:playlistId" component={PlaylistDetailView} />
-					<Route path="/search/:searchTerm" component={SearchResultsView} />
-					<Route path="/favorites" component={FavoriteTracksView} />
-					<Route path="/trending" component={TrendingView} />
-					<Route path="/settings" component={SettingsView} />
-					<NotFound default />
-				</Router>
+				<UserFavoritesProvider>
+					<Router>
+						<Redirect from="/" to="/playlists" noThrow />
+						<Route path="/login" component={AccessView} isPublic={true} />
+						<Route path="/home" component={PlaylistsView} />
+						<Route path="/playlists" component={PlaylistsView} />
+						<Route path="/playlist/:playlistId" component={PlaylistDetailView} />
+						<Route path="/search/:searchTerm" component={SearchResultsView} />
+						<Route path="/favorites" component={FavoriteTracksView} />
+						<Route path="/trending" component={TrendingView} />
+						<Route path="/settings" component={SettingsView} />
+						<NotFound default />
+					</Router>
+				</UserFavoritesProvider>
 			</PlayerProvider>
 		</div>
 	);

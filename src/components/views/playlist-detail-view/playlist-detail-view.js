@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useReducer } from 'react';
 import { useParams, useNavigate } from "@reach/router";
 
 import useDataFetching from '../../shared/use-data-fetching/use-data-fetching';
-import useToggleFavoriteTrack from '../../shared/use-toggle-favorite-track/use-toggle-favorite-track';
+import { useUserFavoritesTracksContext } from '../../shared/user-favorites-context/user-favorites-context';
 import { useAppContext } from '../../shared/app-context/app-context';
 import { usePlayerContext } from '../../shared/player-context/player-context';
 import { parseTrackDuration, formatDuration, DURATION_FORMAT } from '../../../plugins/time-helpers';
@@ -100,7 +100,7 @@ function PlaylistDetailView() {
 	const { player } = usePlayerContext();
 	const { apiClient } = useAppContext();
 	const { playlistId } = useParams();
-	const { toggleFavoriteTrack } = useToggleFavoriteTrack();
+	const { toggleFavoriteTrack } = useUserFavoritesTracksContext();
 	const { isFetching, data } = useDataFetching({
 		query: PLAYLIST_DETAIL_QUERY,
 		params: { playlistId }
