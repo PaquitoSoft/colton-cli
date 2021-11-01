@@ -25,9 +25,14 @@ export default function useDataFetching({
 			setIsFetching(false);
 		})
 		.catch(async ([error]) => {
-			const { errors } = await error.stack.json();
-			setError(errors[0]);
-			setIsFetching(false);
+			if (error.stack) {
+				const { errors } = await error.stack.json();
+				setError(errors[0]);
+				setIsFetching(false);
+			} else {
+				setError(error);
+				setIsFetching(false);
+			}
 		});
 
 		return () => ignore = true;

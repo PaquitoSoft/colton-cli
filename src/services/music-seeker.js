@@ -41,7 +41,7 @@ function buildSearchResults(serverResponse) {
 }
 
 function fetchVideosContentDetails(searchResults) {
-	let url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyAW3kFPPUol2hBcV_1ypYyzjPWJ4xKeCJU';
+	let url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyCAOKAQUMrx8fNn9YqWq5wsvtHalQM3PdA';
 	const videosIds = searchResults.tracks.map(track => track.externalId).join(',')
 	return getData(`${url}&id=${videosIds}`)
 		.then(data => ({
@@ -74,7 +74,7 @@ function cacheSearchResult(cacheKey, ttl) {
 }
 
 export function searchTrack(searchTerm, options = {}) {
-	let searchUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&safeSearch=none&videoEmbeddable=true&key=AIzaSyAW3kFPPUol2hBcV_1ypYyzjPWJ4xKeCJU';
+	let searchUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&safeSearch=none&videoEmbeddable=true&key=AIzaSyCAOKAQUMrx8fNn9YqWq5wsvtHalQM3PdA';
 
 	const extraParams = new URLSearchParams({
 		q: searchTerm,

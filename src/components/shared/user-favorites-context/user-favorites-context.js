@@ -37,7 +37,7 @@ const TOGGLE_FAVORITE_TRACK_MUTATION = `
 
 export function UserFavoritesProvider({ children } ) {
 	const { currentUser, apiClient } = useAppContext();
-	const [favoritesPlaylist, setFavoritesPlaylist] = useState();	
+	const [favoritesPlaylist, setFavoritesPlaylist] = useState({ tracks: [] });
 
 	const toggleFavoriteTrack = track => {
 		return new Promise((resolve, reject) => {
